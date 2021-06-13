@@ -5,12 +5,10 @@
  */
 package quanli_khach_san.phong;
 
-import quanli_khach_san.Customer;
 import quanli_khach_san.Util.MyConvert;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 /**

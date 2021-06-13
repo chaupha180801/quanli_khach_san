@@ -29,7 +29,7 @@ public class ChonPhong extends javax.swing.JFrame {
      * Creates new form ChonPhong
      */
     private PhongDAO PDAO = new PhongDAO();
-    ;
+
 
     @Override
     public void dispose() {

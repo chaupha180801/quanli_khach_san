@@ -269,9 +269,7 @@ public class ThongTinDV extends javax.swing.JFrame {
                 break;
 
             }
-            synchronized (threadNhan) {
-                threadNhan.notify();
-            }
+
             dispose();
         }
 

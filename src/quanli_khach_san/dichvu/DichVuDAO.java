@@ -76,12 +76,33 @@ public class DichVuDAO {
             }
 
     }
+    public boolean deleteTDV(ArrayList<ThueDichVu> listtdv) {
+
+        for(ThueDichVu tdv:listtdv) {
+            String query = "DELETE FROM THUE_DICH_VU WHERE MADV =? AND MAPHIEUTDV =?";
+            try {
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setString(1, tdv.getMADV());
+                ps.setString(2, tdv.getMAPHIEUTDV());
+                return (ps.executeUpdate() > 0);
+            } catch (SQLException ex) {
+                System.out.println(ex);
+                Logger.getLogger(DichVu.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+        return true;
+
+    }
+
     public ArrayList<ThueDichVu> queryTDVBySOHD(HoaDon hoadon)
     {
+        //System.out.println("sohd: "+hoadon.toString());
         ArrayList<ThueDichVu> list = new ArrayList<>();
-        String sqlQuery = "SELECT * from HOADON JOIN THUE_DICH_VU ON HOADON.MAPHIEUTDV=THUE_DICH_VU.MAPHIEUTDV" +
-                " WHERE HOADON.SOHD = ? " +
-                "Order by MADV";
+        String sqlQuery = "SELECT DISTINCT * from THUE_DICH_VU WHERE MAPHIEUTDV IN (" +
+                "SELECT  MAPHIEUTDV FROM HOADON" +
+                " WHERE HOADON.SOHD = ? )" +
+                " Order by MADV";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
             preparedStatementShow.setString(1,hoadon.getSOHD());
@@ -104,7 +125,6 @@ public class DichVuDAO {
             }
         } catch (SQLException e) {
         }
-
         return list;
     }
 

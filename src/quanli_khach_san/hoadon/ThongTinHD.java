@@ -8,9 +8,7 @@ package quanli_khach_san.hoadon;
 import quanli_khach_san.Util.MyConvert;
 import quanli_khach_san.datphong.DatPhong;
 import quanli_khach_san.datphong.DatPhongDAO;
-import quanli_khach_san.dichvu.DichVu;
-import quanli_khach_san.dichvu.DichVuDAO;
-import quanli_khach_san.dichvu.ThueDichVu;
+import quanli_khach_san.dichvu.*;
 import quanli_khach_san.khachhang.KhachHang;
 import quanli_khach_san.khachhang.KhachHangDAO;
 import quanli_khach_san.khuyenmai.KhuyenMai;
@@ -66,7 +64,7 @@ public class ThongTinHD extends javax.swing.JFrame {
 
     private void resetP() {
         jPanelP.removeAll();
-
+        jPanelP.repaint();
         paintp();
 
     }
@@ -74,7 +72,7 @@ public class ThongTinHD extends javax.swing.JFrame {
     private void resetDV() {
 
         jPanelDV.removeAll();
-
+        jPanelDV.repaint();
         paintdv();
     }
 
@@ -425,33 +423,80 @@ public class ThongTinHD extends javax.swing.JFrame {
 
     private void btnTDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTDVActionPerformed
         // TODO add your handling code here:
+        ChonDichVu child = new ChonDichVu();
+        child.setVisible(true);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                {
+                    synchronized (threadGui) {
+                        // Pause
+                        try { //code sau khi mở lại luồng chính
+                            threadGui.wait();
+                            listDv = DVDAO.queryTDVBySOHD(hoadon);
+                            resetDV();
+
+                        } catch (InterruptedException e) {
+                        }
+                    }
+
+                }
+            }
+        };
+
+        threadGui = new Thread(runnable);
+        child.setCDV(threadGui,hoadon);
+
+        //từ đây trở lên là trước khi luồng chính bị đóng
+        threadGui.start();
     }//GEN-LAST:event_btnTDVActionPerformed
 
     private void btnXDPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXDPActionPerformed
         // TODO add your handling code here:
-        if (listTDVIsSelected.isEmpty()) {
+        if (listTPIsSelected == null||listTPIsSelected.isEmpty())
+            JOptionPane.showMessageDialog(null, "Bạn chưa chọn phòng nào", "Thông tin", JOptionPane.INFORMATION_MESSAGE);
+        else {
             Object[] options = {"Có", "Không"};
             int result = JOptionPane.showOptionDialog(this,
-                    "Bạn chưa chọn khách hàng hoặc phòng nào, bạn muốn tiếp tục đặt phòng không?",
-                    "Thông báo",
+                    "Bạn có chắc muốn xoá đặt phòng này?",
+                    "Xác nhận",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     options,
-                    options[0]);
+                    options[1]);
 
-            if (result == JOptionPane.NO_OPTION) {
-
-                dispose();
-
-            } else {
-                new PhongDAO().deleteTP(listTPIsSelected);
+            if (result == JOptionPane.YES_OPTION) {
+                PDAO.deleteTP(listTPIsSelected);
+                listTPh=PDAO.queryTPBySOHD(hoadon);
+                listTPIsSelected.removeAll(listTPIsSelected);
+                resetP();
             }
         }
     }//GEN-LAST:event_btnXDPActionPerformed
 
     private void btnXDDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXDDVActionPerformed
         // TODO add your handling code here:
+        if (listTDVIsSelected == null||listTDVIsSelected.isEmpty())
+            JOptionPane.showMessageDialog(null, "Bạn chưa chọn dịch vụ nào", "Thông tin", JOptionPane.INFORMATION_MESSAGE);
+        else {
+            Object[] options = {"Có", "Không"};
+            int result = JOptionPane.showOptionDialog(this,
+                    "Bạn có chắc muốn xoá dịch vụ này?",
+                    "Xác nhận",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[1]);
+
+            if (result == JOptionPane.YES_OPTION) {
+                DVDAO.deleteTDV(listTDVIsSelected);
+                listDv=DVDAO.queryTDVBySOHD(hoadon);
+                listTDVIsSelected.removeAll(listTDVIsSelected);
+                resetDV();
+            }
+        }
     }//GEN-LAST:event_btnXDDVActionPerformed
 
     private void btnKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKMActionPerformed
@@ -492,6 +537,7 @@ public class ThongTinHD extends javax.swing.JFrame {
         hoadon = hd;
         listTPh = PDAO.queryTPBySOHD(hoadon);
         listDv = DVDAO.queryTDVBySOHD(hoadon);
+
         khuyenmai = KMDAO.queryByHD(hoadon);
         txtSHD.setText(hd.getSOHD());
         txtMAKH.setText(hd.getMAKH());

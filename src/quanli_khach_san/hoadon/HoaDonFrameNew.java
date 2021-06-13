@@ -496,6 +496,7 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
 
     private void btnTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTTActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_btnTTActionPerformed
 
     /**

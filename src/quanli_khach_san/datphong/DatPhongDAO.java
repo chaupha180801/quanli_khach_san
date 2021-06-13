@@ -50,6 +50,32 @@ public class DatPhongDAO {
 
         return resultCode;
     }
+    public Integer insertDVintoHD(HoaDon hd, ArrayList<DichVu> list, Date startDate, Date endDate) {
+        //1 là chạy đúng, 0 là chạy sai
+        Integer resultCode = 1;
+
+        CallableStatement cstmt = null;
+        for (DichVu p : list)
+            try {
+                cstmt = connection.prepareCall("{CALL proc_insert_dichvu(?,?,?,?)}");
+
+
+                cstmt.setString(1, hd.getSOHD());
+                cstmt.setString(2, p.getMADV());
+
+                cstmt.setDate(3, new java.sql.Date(startDate.getTime()));
+
+                cstmt.setDate(4, new java.sql.Date(endDate.getTime()));
+                cstmt.executeQuery();
+
+                resultCode = 0;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+
+        return resultCode;
+    }
 
 
 
