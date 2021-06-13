@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="tool">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/quanli_khach_san/tool/ojdbc6-11.2.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/quanli_khach_san/tool/jcalendar-1.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/quanli_khach_san/tool/jcalendar-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/quanli_khach_san/tool/ojdbc10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/quanli_khach_san/tool/ojdbc8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/quanli_khach_san/tool/swing-layout-1.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

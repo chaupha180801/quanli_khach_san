@@ -1,0 +1,30 @@
+package quanli_khach_san.Util;
+
+public class MyConvert {
+    public static Integer parseStringToInt(String str)
+    {
+        if (str.isEmpty()) return Integer.MIN_VALUE;
+        return Integer.parseInt(str);
+    }
+    public static String parseIntToString(Integer a)
+    {
+        if (a==null) return "";
+        return a.toString();
+    }
+    public static Integer parseObjToInt(Object a)
+    {
+        if (a==null) return Integer.MIN_VALUE;
+        return Integer.parseInt(a.toString());
+    }
+    public static Float parseStringToFloat(String str)
+    {
+        if (str.isEmpty()) return Float.MIN_VALUE;
+        return Float.parseFloat(str);
+    }
+    public static String parseFloatToString(Float a)
+    {
+        if (a==null) return "";
+        return a.toString();
+    }
+
+}
