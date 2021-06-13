@@ -1,6 +1,7 @@
 package quanli_khach_san.khuyenmai;
 
 import quanli_khach_san.database.Database;
+import quanli_khach_san.hoadon.HoaDon;
 import quanli_khach_san.khuyenmai.KhuyenMai;
 
 import javax.swing.*;
@@ -121,5 +122,30 @@ public class KhuyenMaiDAO {
             return false;
         }
         return true;
+    }
+    public KhuyenMai queryByHD(HoaDon hd) {
+       KhuyenMai khuyenmai = null;
+        String sqlQuery = "SELECT * from KhuyenMai WHERE MAKM =? Order by MAKM";
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setString(1,hd.getMAKM());
+            ResultSet rs = preparedStatementShow.executeQuery();
+
+            while (rs.next()) {
+
+                String makm=rs.getString("MAKM");
+                String tenkm =rs.getString("TENKM");
+                String mota=rs.getString("MOTA");
+                Float tile=rs.getFloat("TILE");
+                Date ngaybd=rs.getDate("NGAYBD");
+                Date ngaykt=rs.getDate("NGAYKT");
+
+
+                khuyenmai= new KhuyenMai(makm,tenkm,mota,tile,ngaybd,ngaykt);
+
+            }
+        } catch (SQLException e) {
+        }
+        return khuyenmai;
     }
 }

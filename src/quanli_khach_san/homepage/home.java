@@ -6,6 +6,7 @@
 package quanli_khach_san.homepage;
 
 import quanli_khach_san.dichvu.DichVuFrameNew;
+import quanli_khach_san.hoadon.HoaDonFrame;
 import quanli_khach_san.hoadon.HoaDonFrameNew;
 import quanli_khach_san.khachhang.KhachHangFrame;
 import quanli_khach_san.khuyenmai.KhuyenMaiFrame;
@@ -24,14 +25,19 @@ public class home extends javax.swing.JFrame {
      * Creates new form home
      */
     public home() {
+        TongQuan tq= new TongQuan();
+        HoaDonFrameNew hdf=new HoaDonFrameNew();
+        tq.setHDFtoTQF(hdf);
+        hdf.setTQFtoHDF(tq);
         jPanelDV = new DichVuFrameNew().getPanel();
-        jPanelHD = new HoaDonFrameNew().getPanel();
+        jPanelHD = hdf.getPanel();
         jPanelKH = new KhachHangFrame().getPanel();
         jPanelKM = new KhuyenMaiFrame().getPanel();
         jPanelNV = new NhanVienFrame().getPanel();
-        jPanelP = new TongQuan().getPanel();
+        jPanelP = tq.getPanel();
         jPanelQD = new QuyDinh().getPanel();
         jPanelTK = new TaiKhoanFrame().getPanel();
+
         initComponents();
 
 

@@ -16,7 +16,7 @@ public class PhongDAO {
     Connection connection=null;
     public ArrayList<Phong> queryAllPhong() {
         ArrayList<Phong> list = new ArrayList<>();
-        String sqlQuery = "SELECT * from PHONG Order by MAPH";
+        String sqlQuery = "SELECT DISTINCT * from PHONG Order by MAPH";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
 
@@ -47,9 +47,10 @@ public class PhongDAO {
         java.sql.Date date2 =new java.sql.Date(endDate.getTime());
 
         ArrayList<Phong> list = new ArrayList<>();
-        String sqlQuery = "SELECT * from PHONG JOIN THUE_PHONG ON PHONG.MAPH=THUE_PHONG.MAPH " +
+        String sqlQuery = "SELECT DISTINCT * FROM PHONG WHERE MAPH IN("+
+                "SELECT PHONG.MAPH from PHONG JOIN THUE_PHONG ON PHONG.MAPH=THUE_PHONG.MAPH " +
                 "WHERE NGBD <= ? " +
-                "AND NGKT >= ?"+
+                "AND NGKT >= ?)"+
                 "Order by PHONG.MAPH";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
@@ -73,15 +74,44 @@ public class PhongDAO {
             }
         } catch (SQLException e) {
         }
+        System.out.println("Dat: "+list.toString());
         return list;
     }
     public ArrayList<Phong> queryAllPhongEmptyStEd(Date startDate, Date endDate)
     {
-        ArrayList<Phong> listAll=queryAllPhong();
-        ArrayList<Phong> listFull =queryAllPhongFullByStEd( startDate,  endDate);
-        listAll.removeAll(listFull);
-  //      System.out.println(listAll.toString());
-        return listAll;
+        java.sql.Date date1 =new java.sql.Date(startDate.getTime());
+        java.sql.Date date2 =new java.sql.Date(endDate.getTime());
+
+        ArrayList<Phong> list = new ArrayList<>();
+        String sqlQuery = "SELECT DISTINCT * FROM PHONG WHERE MAPH NOT IN("+
+                "SELECT PHONG.MAPH from PHONG JOIN THUE_PHONG ON PHONG.MAPH=THUE_PHONG.MAPH " +
+                "WHERE NGBD <= ? " +
+                "AND NGKT >= ?)"+
+                "Order by PHONG.MAPH";
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setDate(1,date2);
+            preparedStatementShow.setDate(2,date1);
+
+            ResultSet rs = preparedStatementShow.executeQuery();
+
+            while (rs.next()) {
+
+                String maph = rs.getString("MAPH");
+                String maphoaiph = rs.getString("MALOAIPH");
+                String tinhtrang = rs.getString("TINHTRANG");
+                String ghichu = rs.getString("GHICHU");
+
+                //Date ngayhd = rs.getDate("NGAYHD");
+
+
+                list.add(new Phong(maph,maphoaiph,tinhtrang,ghichu));
+
+            }
+        } catch (SQLException e) {
+        }
+        System.out.println("Trong: "+list.toString());
+        return list;
     }
 
     public ArrayList<ThuePhong> queryTPBySOHD(HoaDon hoadon) {

@@ -130,7 +130,7 @@ public class HoaDonFrame extends javax.swing.JFrame {
         lbTHANHTIEN = new javax.swing.JLabel();
         txtTHANHTIEN = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tablePanel.setBackground(new java.awt.Color(255, 255, 255));
         tablePanel.setBorder(null);

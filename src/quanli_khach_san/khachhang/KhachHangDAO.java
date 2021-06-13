@@ -23,7 +23,7 @@ public class KhachHangDAO {
     Connection connection=null;
     public ArrayList<KhachHang> queryAllKhachHang() {
         ArrayList<KhachHang> list = new ArrayList<>();
-        String sqlQuery = "SELECT * from KHACHHANG Order by MAKH";
+        String sqlQuery = "SELECT DISTINCT* from KHACHHANG Order by MAKH";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
 
@@ -52,7 +52,7 @@ public class KhachHangDAO {
 
     public ArrayList<KhachHang> queryAllKHMember() {
         ArrayList<KhachHang> list = new ArrayList<>();
-        String sqlQuery = "SELECT * from KHACHHANG WHERE LOAIKH='thanhvien' Order by MAKH";
+        String sqlQuery = "SELECT DISTINCT* from KHACHHANG WHERE LOAIKH='thanhvien' Order by MAKH";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
 

@@ -8,6 +8,7 @@ package quanli_khach_san.hoadon;
 import quanli_khach_san.hoadon.HoaDon;
 import quanli_khach_san.hoadon.HoaDonDAO;
 import quanli_khach_san.datphong.DatPhong;
+import quanli_khach_san.homepage.TongQuan;
 import quanli_khach_san.khuyenmai.ThongTinKM;
 
 import javax.swing.*;
@@ -32,6 +33,7 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
     private ArrayList<HoaDon> listhd = new ArrayList<>();
     private Color colorPre = new Color(255, 255, 255);
     private Thread threadGui;
+    private TongQuan tongquanframe;
     // private ArrayList<HoaDon> listKHMember =new ArrayList<>();
     // private ArrayList<HoaDon> listKHNormal =new ArrayList<>();
     // private Color colorPre=new Color(255,255,255);
@@ -47,11 +49,27 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
         listhd = HDDAO.queryHDByNgay(startDate, endDate);
         reset();
     }
-
+    public void setTQFtoHDF(TongQuan frame)
+    {
+        tongquanframe =frame;
+    }
+    public void dataChange()
+    {
+        listhd = HDDAO.queryHDByNgay(dateTN.getDate(), dateDN.getDate());
+        reset();
+    }
+    private void notifyDateChange()
+    {
+        tongquanframe.dataChange();
+        listhd = HDDAO.queryHDByNgay(dateTN.getDate(), dateDN.getDate());
+        reset();
+    }
     private void reset() {
         listIsSelected.remove(listIsSelected);
 
         jPanel8.removeAll();
+        jPanel8.repaint();
+
         ;
         //       listKHMember=HDDAO.queryAllKHMember();
 //        listKHNormal=HDDAO.queryAllKHNormal();
@@ -87,6 +105,7 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
                         .collect(Collectors.toList());
 
                 listIsSelected.addAll(imcomes1);
+                
 
                 buttonIsSelected = btnTemp;
                 buttonIsSelected.setBackground(new java.awt.Color(0, 204, 255));
@@ -120,6 +139,7 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
         btnDP = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel8 = new javax.swing.JPanel();
+        btnTT = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabelDN = new javax.swing.JLabel();
         jLabelTN = new javax.swing.JLabel();
@@ -254,6 +274,14 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
         jPanel8.setLayout(new java.awt.GridLayout(0, 1, 2, 3));
         jScrollPane2.setViewportView(jPanel8);
 
+        btnTT.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnTT.setText("Thanh toán");
+        btnTT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTTActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -269,7 +297,8 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnX, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCNC, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnCNC, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTT, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -287,7 +316,8 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
                         .addComponent(btnX, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnCNC, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnTT, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -382,7 +412,7 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
                         try { //code sau khi mở lại luồng chính
                             threadGui.wait();
 
-                            reset();
+                            notifyDateChange();
                         } catch (InterruptedException e) {
                         }
                     }
@@ -408,7 +438,7 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null, "Bạn chưa chọn hoá đơn nào", "Thông tin", JOptionPane.INFORMATION_MESSAGE);
         else {
-            ThongTinHD child = new ThongTinHD(listIsSelected.get(0));
+            ThongTinHD child = new ThongTinHD();
             child.setVisible(true);
             Runnable runnable = new Runnable() {
                 @Override
@@ -419,7 +449,7 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
                             try { //code sau khi mở lại luồng chính
                                 threadTOTThd.wait();
 
-                                reset();
+                                notifyDateChange();
                             } catch (InterruptedException e) {
                             }
                         }
@@ -458,7 +488,7 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
             if (result == JOptionPane.YES_OPTION) {
                 HDDAO.deleteDatabase(listIsSelected.get(0));
                 listIsSelected.removeAll(listIsSelected);
-                reset();
+                notifyDateChange();
             }
         }
     }//GEN-LAST:event_btnXActionPerformed
@@ -466,8 +496,12 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
     private void btnCNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCNActionPerformed
         // TODO add your handling code here:
         listhd=HDDAO.queryHDByNgay(dateTN.getDate(),dateDN.getDate());
-        reset();
+        notifyDateChange();
     }//GEN-LAST:event_btnCNActionPerformed
+
+    private void btnTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTTActionPerformed
 
     /**
      * @param args the command line arguments
@@ -508,6 +542,7 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
     private javax.swing.JButton btnCN;
     private javax.swing.JButton btnCNC;
     private javax.swing.JButton btnDP;
+    private javax.swing.JButton btnTT;
     private javax.swing.JButton btnX;
     private com.toedter.calendar.JDateChooser dateDN;
     private com.toedter.calendar.JDateChooser dateTN;

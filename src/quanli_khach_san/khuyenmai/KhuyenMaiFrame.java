@@ -25,11 +25,13 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
      * Creates new form KhuyenMaiFrame
      */
     private Thread threadGui;
+    private Thread threadNhan;
     private KhuyenMaiDAO KHDAO =new KhuyenMaiDAO();
     private JButton buttonIsSelected=new JButton();
     private ArrayList<KhuyenMai> listIsSelected =new ArrayList<>();
     private ArrayList<KhuyenMai> listKM =new ArrayList<>();
     private Color colorPre=new Color(255,255,255);
+
    // private ArrayList<KhuyenMai> listKHMember =new ArrayList<>();
    // private ArrayList<KhuyenMai> listKHNormal =new ArrayList<>();
    // private Color colorPre=new Color(255,255,255);
@@ -42,6 +44,14 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
         reset();
 
     }
+    @Override
+    public void dispose() {
+        synchronized(threadNhan) {
+            threadNhan.notify();
+        }
+        super.dispose();
+    }
+
     private void reset()
     {
         listKM=KHDAO.queryAllkm();
@@ -100,11 +110,10 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabelTN = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
+        txtMT = new javax.swing.JTextField();
         lbSelected = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -118,7 +127,7 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
         btnX = new javax.swing.JButton();
         btnS = new javax.swing.JButton();
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1280, 720));
 
@@ -129,7 +138,7 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1270, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,21 +147,10 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabelTN.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabelTN.setText("Mã khuyến mãi");
-
-        txtSearch.setToolTipText("Nhập mã khách hàng cần tìm...");
-        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+        txtMT.setToolTipText("Nhập mã khách hàng cần tìm...");
+        txtMT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchActionPerformed(evt);
-            }
-        });
-
-        btnSearch.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnSearch.setText("Tìm kiếm");
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
+                txtMTActionPerformed(evt);
             }
         });
 
@@ -161,6 +159,9 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel5.setText("Chọn khuyến mãi:");
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel4.setText("Mô tả:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -168,29 +169,23 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(152, 152, 152)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(lbSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelTN, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(btnSearch)
-                .addGap(50, 50, 50))
+                .addComponent(lbSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtMT))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbSelected, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtMT, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbSelected, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(jLabel5))
                 .addContainerGap())
         );
 
@@ -305,9 +300,6 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 10, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -321,6 +313,7 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
                         .addComponent(btnOKE1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1280, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,6 +358,22 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
     private void btnOKE1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
 
+        if(listIsSelected.isEmpty())
+
+            JOptionPane.showMessageDialog(null,"Bạn chưa chọn khuyến mãi nào","Thông tin",JOptionPane.INFORMATION_MESSAGE);
+        else {
+
+            dispose();
+
+        }
+    }
+    public KhuyenMai getKhuyenMaiIsSelected()
+    {
+        return listIsSelected.get(0);
+    }
+    public void setThreadNhan(Thread th)
+    {
+        threadNhan=th;
     }
     private void btnXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXActionPerformed
         // TODO add your handling code here:
@@ -397,7 +406,7 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(listIsSelected.isEmpty())
 
-            JOptionPane.showMessageDialog(null,"Bạn chưa chọn khách hàng nào","Thông tin",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Bạn chưa chọn khuyến mãi nào","Thông tin",JOptionPane.INFORMATION_MESSAGE);
         else {
              ThongTinKM child=new ThongTinKM();
             child.setVisible(true);
@@ -430,17 +439,6 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnSActionPerformed
-
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_txtSearchActionPerformed
-
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
-        List<KhuyenMai> matches = listKM.stream().filter(it -> it.getMAKM().toString().contains(txtSearch.getText())).collect(Collectors.toList());
-        lbSelected.setText(matches.get(0).getMAKM().toString());
-    }//GEN-LAST:event_btnSearchActionPerformed
 
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -475,6 +473,10 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
 
         // new CHILD().setVisible(true);
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void txtMTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMTActionPerformed
 
     public JPanel getPanel()
     {
@@ -518,14 +520,13 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOKE1;
     private javax.swing.JButton btnS;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnX;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabelTN;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -535,6 +536,6 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbSelected;
-    private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtMT;
     // End of variables declaration//GEN-END:variables
 }
