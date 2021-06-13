@@ -30,7 +30,7 @@ public class DatPhongDAO {
 
 
                 cstmt.setString(1, khachHang.getMAKH());
-                cstmt.setString(2, "NV0001");
+                cstmt.setString(2, nhanvien.getMANV());
                 cstmt.setString(3, p.getMAPH());
 
                 cstmt.setDate(4, new java.sql.Date(startDate.getTime()));
