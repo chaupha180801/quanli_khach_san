@@ -340,7 +340,6 @@ public class ChonPhong extends javax.swing.JFrame {
         // TODO add your handling code here:
         //CODE trước trong luồng phụ
 
-        System.out.println("Chuan bi thoat khoi luong");
 
         dispose();
     }//GEN-LAST:event_btnOKEActionPerformed
@@ -355,7 +354,7 @@ public class ChonPhong extends javax.swing.JFrame {
     public void beginThread(Thread t) {
         threadNhan = t;
 
-        System.out.println("Nhan duoc bien Thread thi luong chinh");
+
     }
     public JPanel getPanel()
     {

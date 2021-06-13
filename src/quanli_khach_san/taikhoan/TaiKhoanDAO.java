@@ -15,7 +15,7 @@ public class TaiKhoanDAO {
     Connection connection=null;
     public ArrayList<TaiKhoan> queryAlltk() {
         ArrayList<TaiKhoan> list = new ArrayList<>();
-        String sqlQuery = "SELECT * from TaiKhoan Order by USERNAME";
+        String sqlQuery = "SELECT distinct * from TaiKhoan Order by USERNAME";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
 

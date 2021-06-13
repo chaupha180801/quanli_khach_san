@@ -15,7 +15,7 @@ public class DanhSachPhongDAO {
     Connection connection=null;
     public ArrayList<DanhSachPhong> queryAllDSP() {
         ArrayList<DanhSachPhong> list = new ArrayList<>();
-        String sqlQuery = "SELECT * from DANHSACHPHONG Order by MALOAIPH";
+        String sqlQuery = "SELECT DISTINCT * from DANHSACHPHONG Order by MALOAIPH";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
 

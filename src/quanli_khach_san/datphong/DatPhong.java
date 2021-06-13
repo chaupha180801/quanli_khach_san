@@ -8,6 +8,7 @@ package quanli_khach_san.datphong;
 import quanli_khach_san.Util.MyInstance;
 import quanli_khach_san.hoadon.HoaDon;
 import quanli_khach_san.khachhang.KhachHang;
+import quanli_khach_san.khachhang.KhachHangDAO;
 import quanli_khach_san.khachhang.KhachHangFrame;
 import quanli_khach_san.khuyenmai.KhuyenMai;
 import quanli_khach_san.khuyenmai.KhuyenMaiFrame;
@@ -37,6 +38,8 @@ public class DatPhong extends javax.swing.JFrame {
     private Thread threadNhan;
     private KhuyenMai khuyenmai;
 
+    private HoaDon hoadon;
+
 
     /**
      * Creates new form DatPhong
@@ -57,6 +60,7 @@ public class DatPhong extends javax.swing.JFrame {
     }
 
     private void reset() {
+
         jPanel8.removeAll();
         jPanel8.repaint();
         paintKh();
@@ -508,20 +512,22 @@ public class DatPhong extends javax.swing.JFrame {
             if (isInstace == MyInstance.IS_ADD)
                 DPDAO.insertKHintoPhong(khachHang, nhanvien, listPhong, dateTuNgay.getDate(), dateDenNgay.getDate(), khuyenmai);
             else if (isInstace == MyInstance.IS_EDIT)
-                DPDAO.insertPintoHD(listPhong, hoadon, dateTuNgay.getDate(), dateDenNgay.getDate());
+                DPDAO.insertKHintoPhong(khachHang, nhanvien, listPhong, dateTuNgay.getDate(), dateDenNgay.getDate(), khuyenmai);
             dispose();
         }
 
 
     }
 
-    private HoaDon hoadon;
 
     public void setEdit(Thread th, HoaDon hd) {
         threadNhan = th;
-        isInstace = MyInstance.IS_ADD;
+        isInstace = MyInstance.IS_EDIT;
         hoadon = hd;
+        khachHang=new KhachHangDAO().queryKHbyHD(hoadon);
         reset();
+        paintKh();
+
     }
 
     public void setAdd(Thread th) {

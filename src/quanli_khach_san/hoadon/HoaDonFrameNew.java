@@ -70,14 +70,9 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
         jPanel8.removeAll();
         jPanel8.repaint();
 
-        ;
-        //       listKHMember=HDDAO.queryAllKHMember();
-//        listKHNormal=HDDAO.queryAllKHNormal();
 
-        //    paintKHMember(listKHMember);
-        // System.out.println(listKHMember.toString());
         painthd(listhd);
-        // System.out.println(listKHNormal.toString());
+
     }
 
     private void painthd(ArrayList<HoaDon> list) {

@@ -1,6 +1,7 @@
 package quanli_khach_san.khachhang;
 
 import quanli_khach_san.database.Database;
+import quanli_khach_san.hoadon.HoaDon;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -9,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+
 /*
 "MAKH=" + MAKH +
                 ", TENKH='" + TENKH + '\'' +
@@ -20,10 +22,11 @@ import java.util.Date;
                 ", LOAIKH=
  */
 public class KhachHangDAO {
-    Connection connection=null;
+    Connection connection = null;
+
     public ArrayList<KhachHang> queryAllKhachHang() {
         ArrayList<KhachHang> list = new ArrayList<>();
-        String sqlQuery = "SELECT DISTINCT* from KHACHHANG Order by MAKH";
+        String sqlQuery = "SELECT DISTINCT * from KHACHHANG Order by MAKH";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
 
@@ -35,14 +38,13 @@ public class KhachHangDAO {
                 String tenkh = rs.getString("TENKH");
                 String cmnd = rs.getString("CMND");
                 String quoctich = rs.getString("QUOCTICH");
-                Date ngsinh=rs.getDate("NGSINH");
+                Date ngsinh = rs.getDate("NGSINH");
                 String sdt = rs.getString("SDT");
                 String diachi = rs.getString("DIACHI");
                 String loaikh = rs.getString("LOAIKH");
 
 
-
-                list.add(new KhachHang(makh,tenkh,cmnd,quoctich,ngsinh,sdt,diachi,loaikh));
+                list.add(new KhachHang(makh, tenkh, cmnd, quoctich, ngsinh, sdt, diachi, loaikh));
 
             }
         } catch (SQLException e) {
@@ -63,14 +65,13 @@ public class KhachHangDAO {
                 String tenkh = rs.getString("TENKH");
                 String cmnd = rs.getString("CMND");
                 String quoctich = rs.getString("QUOCTICH");
-                Date ngsinh=rs.getDate("NGSINH");
+                Date ngsinh = rs.getDate("NGSINH");
                 String sdt = rs.getString("SDT");
                 String diachi = rs.getString("DIACHI");
                 String loaikh = rs.getString("LOAIKH");
 
 
-
-                list.add(new KhachHang(makh,tenkh,cmnd,quoctich,ngsinh,sdt,diachi,loaikh));
+                list.add(new KhachHang(makh, tenkh, cmnd, quoctich, ngsinh, sdt, diachi, loaikh));
 
             }
         } catch (SQLException e) {
@@ -103,15 +104,13 @@ public class KhachHangDAO {
             }
         } catch (SQLException e) {
         }*/
-        ArrayList<KhachHang> listAll =queryAllKhachHang();
+        ArrayList<KhachHang> listAll = queryAllKhachHang();
         listAll.removeAll(listMember);
 
-        System.out.println(listAll.toString());
         return listAll;
     }
 
-    public void removeKH(KhachHang khachhang)
-    {
+    public void removeKH(KhachHang khachhang) {
         String SQL = "delete from KHACHHANG where MAKH=?";
 
 
@@ -124,11 +123,9 @@ public class KhachHangDAO {
             throwables.printStackTrace();
 
         }
-
-
     }
-    public void insertKH(KhachHang khachhang)
-    {
+
+    public void insertKH(KhachHang khachhang) {
         String SQL = "insert into KHACHHANG(TENKH, CMND, QUOCTICH, NGSINH, SDT, DIACHI,LOAIKH) values(?,?,?,?,?,?,?)";
 
 
@@ -137,25 +134,23 @@ public class KhachHangDAO {
             ps = connection.prepareStatement(SQL);
 
 
-
-
-        ps.setString(1, khachhang.getTENKH());
+            ps.setString(1, khachhang.getTENKH());
             ps.setString(2, khachhang.getCMND());
             ps.setString(3, khachhang.getQUOCTICH());
             ps.setDate(4, new java.sql.Date(khachhang.getNGSINH().getTime()));
-            System.out.println(new java.sql.Date(khachhang.getNGSINH().getTime()));
-            ps.setString(5,khachhang.getSDT());
+            ps.setString(5, khachhang.getSDT());
             ps.setString(6, khachhang.getDIACHI());
-            ps.setString(7,khachhang.getLOAIKH());
+            ps.setString(7, khachhang.getLOAIKH());
 
             ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
 
-        };
+        }
+        ;
     }
-    public void updateKH(KhachHang khachhang)
-    {
+
+    public void updateKH(KhachHang khachhang) {
         String SQL = "update KHACHHANG set  TENKH=?, CMND=?, QUOCTICH=?, NGSINH=?, SDT=?, DIACHI=?,LOAIKH=? where MAKH = ?";
 
 
@@ -166,38 +161,55 @@ public class KhachHangDAO {
             ps.setString(2, khachhang.getCMND());
             ps.setString(3, khachhang.getQUOCTICH());
             ps.setDate(4, new java.sql.Date(khachhang.getNGSINH().getTime()));
-            ps.setString(5,khachhang.getSDT());
+            ps.setString(5, khachhang.getSDT());
             ps.setString(6, khachhang.getDIACHI());
-            ps.setString(7,khachhang.getLOAIKH());
-            ps.setString(8,khachhang.getMAKH());
+            ps.setString(7, khachhang.getLOAIKH());
+            ps.setString(8, khachhang.getMAKH());
 
             ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-
-
-
-
-
     }
 
+    public KhachHang queryKHbyHD(HoaDon hd) {
+        String sqlQuery = "SELECT DISTINCT * from KHACHHANG WHERE MAKH IN ( " +
+                "SELECT MAKH FROM HOADON WHERE SOHD = ?) " +
+                "Order by MAKH";
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setString(1, hd.getSOHD());
+            ResultSet rs = preparedStatementShow.executeQuery();
+
+            while (rs.next()) {
+
+                String makh = rs.getString("MAKH");
+                String tenkh = rs.getString("TENKH");
+                String cmnd = rs.getString("CMND");
+                String quoctich = rs.getString("QUOCTICH");
+                Date ngsinh = rs.getDate("NGSINH");
+                String sdt = rs.getString("SDT");
+                String diachi = rs.getString("DIACHI");
+                String loaikh = rs.getString("LOAIKH");
 
 
+                return new KhachHang(makh, tenkh, cmnd, quoctich, ngsinh, sdt, diachi, loaikh);
 
-
-
+            }
+        } catch (SQLException e) {
+        }
+        return new KhachHang();
+    }
 
 
     public KhachHangDAO() {
         setConnection();
     }
 
-    public boolean setConnection()
-    {
-        this.connection= Database.getConnection();
-        if (connection==null) {
+    public boolean setConnection() {
+        this.connection = Database.getConnection();
+        if (connection == null) {
             JOptionPane.showMessageDialog(null, "Can not connect to database.");
             System.exit(1);
             return false;

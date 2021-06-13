@@ -117,7 +117,7 @@ public class PhongDAO {
     public ArrayList<ThuePhong> queryTPBySOHD(HoaDon hoadon) {
         ArrayList<ThuePhong> list = new ArrayList<>();
         String sqlQuery = "SELECT DISTINCT * FROM THUE_PHONG WHERE MAPHIEUTP IN("+
-                "SELECT MAPHIEUTP from HOADON) " +
+                "SELECT MAPHIEUTP from HOADON WHERE SOHD =?) " +
                 "Order by MAPH";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
@@ -148,6 +148,27 @@ public class PhongDAO {
         return list;
     }
 
+    public boolean deleteTP(ArrayList<ThuePhong> list) {
+        PreparedStatement ps = null;
+
+        for (ThuePhong p:list) {
+            try {
+                String query = "DELETE FROM THUE_PHONG WHERE MAPH =? AND MAPHIEUTP =?";
+                ps = connection.prepareStatement(query);
+                ps.setString(1, p.getMAPH());
+                ps.setString(2, p.getMAPHIEUTP());
+
+                ps.executeUpdate();
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
+        }
+
+        return true;
+
+    }
 
 
 
