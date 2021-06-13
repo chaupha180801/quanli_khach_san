@@ -74,7 +74,7 @@ public class PhongDAO {
             }
         } catch (SQLException e) {
         }
-        System.out.println("Dat: "+list.toString());
+
         return list;
     }
     public ArrayList<Phong> queryAllPhongEmptyStEd(Date startDate, Date endDate)
@@ -110,14 +110,14 @@ public class PhongDAO {
             }
         } catch (SQLException e) {
         }
-        System.out.println("Trong: "+list.toString());
+
         return list;
     }
 
     public ArrayList<ThuePhong> queryTPBySOHD(HoaDon hoadon) {
         ArrayList<ThuePhong> list = new ArrayList<>();
-        String sqlQuery = "SELECT * from HOADON JOIN THUE_PHONG ON HOADON.MAPHIEUTP=THUE_PHONG.MAPHIEUTP" +
-                " WHERE HOADON.SOHD= ? " +
+        String sqlQuery = "SELECT DISTINCT * FROM THUE_PHONG WHERE MAPHIEUTP IN("+
+                "SELECT MAPHIEUTP from HOADON) " +
                 "Order by MAPH";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
