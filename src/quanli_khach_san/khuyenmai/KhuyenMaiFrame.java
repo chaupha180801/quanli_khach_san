@@ -81,6 +81,7 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
 
             btnTemp.addActionListener(e -> {
                 buttonIsSelected.setBackground(colorPre);
+
                 colorPre=new Color(255, 245, 245);
                 String[] words=btnTemp.getText().split("\\s");
                 String StrTemp=words[1];
@@ -88,6 +89,7 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
                 java.util.List<KhuyenMai> imcomes1 = list.stream().filter(i -> i.getMAKM().equals(StrTemp))
                         .collect(Collectors.toList());
                 listIsSelected.add(imcomes1.get(0));
+                txtMT.setText(listIsSelected.get(0).getMOTA());
                 lbSelected.setText(StrTemp);
                 buttonIsSelected=btnTemp;
                 buttonIsSelected.setBackground(new java.awt.Color(0, 204, 255));
@@ -95,6 +97,7 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
             jPanel8.add(btnTemp);
         }
         jPanel8.revalidate();
+
     }
 
 
