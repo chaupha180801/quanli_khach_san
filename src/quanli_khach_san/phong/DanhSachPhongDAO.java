@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DanhSachPhongDAO {
-    Connection connection=null;
+    Connection connection = null;
+
     public ArrayList<DanhSachPhong> queryAllDSP() {
         ArrayList<DanhSachPhong> list = new ArrayList<>();
         String sqlQuery = "SELECT DISTINCT * from DANHSACHPHONG Order by MALOAIPH";
@@ -23,25 +24,24 @@ public class DanhSachPhongDAO {
 
             while (rs.next()) {
 
-                String maphoaiph=rs.getString("MALOAIPH");
-                String tenloaiph =rs.getString("TENLOAIPH");
-                Integer soluongph=rs.getInt("SOLUONGPH");
-                Integer dongia=rs.getInt("DONGIA");
-                Integer songuoi=rs.getInt("SONGUOI");
-                String ghichu=rs.getString("GHICHU");
+                String maphoaiph = rs.getString("MALOAIPH");
+                String tenloaiph = rs.getString("TENLOAIPH");
+                Integer soluongph = rs.getInt("SOLUONGPH");
+                Integer dongia = rs.getInt("DONGIA");
+                Integer songuoi = rs.getInt("SONGUOI");
+                String ghichu = rs.getString("GHICHU");
 
 
-
-                list.add(new DanhSachPhong(maphoaiph,tenloaiph,soluongph,dongia,songuoi,ghichu));
+                list.add(new DanhSachPhong(maphoaiph, tenloaiph, soluongph, dongia, songuoi, ghichu));
 
             }
         } catch (SQLException e) {
         }
-       //System.out.println(list.toString());
+        //System.out.println(list.toString());
         return list;
     }
-    public void remove(DanhSachPhong dsp)
-    {
+
+    public void remove(DanhSachPhong dsp) {
         String SQL = "delete from DANHSACHPHONG where MAPHOAIPH=?";
 
 
@@ -57,8 +57,8 @@ public class DanhSachPhongDAO {
 
 
     }
-    public void insert(DanhSachPhong dsp)
-    {
+
+    public void insert(DanhSachPhong dsp) {
         String SQL = "insert into DANHSACHPHONG( MALOAIPH, TENLOAIPH, SOLUONGPH, DONGIA, SONGUOI,GHICHU) values(?,?,?,?,?,?)";
 
 
@@ -71,7 +71,7 @@ public class DanhSachPhongDAO {
             ps.setInt(3, dsp.getSOLUONGPH());
             ps.setInt(4, dsp.getDONGIA());
 
-            ps.setInt(5,dsp.getSONGUOI());
+            ps.setInt(5, dsp.getSONGUOI());
             ps.setString(6, dsp.getGHICHU());
 
             ps.executeUpdate();
@@ -80,6 +80,7 @@ public class DanhSachPhongDAO {
 
         }
     }
+
     public void update(DanhSachPhong dsp) {
         String SQL = "update DANHSACHPHONG set   TENLOAIPH=?, SOLUONGPH=?, DONGIA=?, SONGUOI=?, GHICHU=? where MAPHOAIPH = ?";
 
@@ -103,22 +104,69 @@ public class DanhSachPhongDAO {
         }
     }
 
+    public DanhSachPhong queryDSPbyP(Phong p) {
+        String sqlQuery = "SELECT DISTINCT * from DANHSACHPHONG WHERE MALOAIPH = ? Order by MALOAIPH";
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setString(1, p.getMALOAIPH());
+            ResultSet rs = preparedStatementShow.executeQuery();
+
+            while (rs.next()) {
+
+                String maphoaiph = rs.getString("MALOAIPH");
+                String tenloaiph = rs.getString("TENLOAIPH");
+                Integer soluongph = rs.getInt("SOLUONGPH");
+                Integer dongia = rs.getInt("DONGIA");
+                Integer songuoi = rs.getInt("SONGUOI");
+                String ghichu = rs.getString("GHICHU");
+
+                return new DanhSachPhong(maphoaiph, tenloaiph, soluongph, dongia, songuoi, ghichu);
+
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+    public DanhSachPhong queryDSPbyTP(ThuePhong p) {
+        String sqlQuery = "SELECT DISTINCT * from DANHSACHPHONG WHERE MALOAIPH IN " +
+                "( SELECT MALOAIPH FROM PHONG WHERE MAPH = ?" +
+                ") Order by MALOAIPH";
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setString(1, p.getMAPH());
+            ResultSet rs = preparedStatementShow.executeQuery();
+
+            while (rs.next()) {
+
+                String maphoaiph = rs.getString("MALOAIPH");
+                String tenloaiph = rs.getString("TENLOAIPH");
+                Integer soluongph = rs.getInt("SOLUONGPH");
+                Integer dongia = rs.getInt("DONGIA");
+                Integer songuoi = rs.getInt("SONGUOI");
+                String ghichu = rs.getString("GHICHU");
+
+                return new DanhSachPhong(maphoaiph, tenloaiph, soluongph, dongia, songuoi, ghichu);
+
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
 
 
-public ArrayList<DanhSachPhong> find(DanhSachPhong dsp)
-{
-    return new ArrayList<>();
-}
+    public ArrayList<DanhSachPhong> find(DanhSachPhong dsp) {
+        return new ArrayList<>();
+    }
 
 
     public DanhSachPhongDAO() {
         setConnection();
     }
 
-    public boolean setConnection()
-    {
-        this.connection= Database.getConnection();
-        if (connection==null) {
+    public boolean setConnection() {
+        this.connection = Database.getConnection();
+        if (connection == null) {
             JOptionPane.showMessageDialog(null, "Can not connect to database.");
             System.exit(1);
             return false;

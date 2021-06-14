@@ -26,5 +26,11 @@ public class MyConvert {
         if (a==null) return "";
         return a.toString();
     }
+    public static String parseObjToString(Object a)
+    {
+        if (a==null) return "";
+        return a.toString();
+    }
+
 
 }

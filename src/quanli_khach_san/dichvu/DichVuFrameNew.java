@@ -291,9 +291,9 @@ public class DichVuFrameNew extends javax.swing.JFrame {
 
         int row = this.jTable2.getSelectedRow();
         isSelected = new DichVu();
-        isSelected.setMADV(jTable2.getValueAt(row, 0).toString());
-        isSelected.setTENDV(jTable2.getValueAt(row, 1).toString());
-        isSelected.setGIADV(MyConvert.parseStringToInt(jTable2.getValueAt(row, 2).toString()));
+        isSelected.setMADV(MyConvert.parseObjToString(jTable2.getValueAt(row, 0)));
+        isSelected.setTENDV(MyConvert.parseObjToString(jTable2.getValueAt(row, 1)));
+        isSelected.setGIADV(MyConvert.parseObjToInt(jTable2.getValueAt(row, 2)));
 
     }//GEN-LAST:event_jTable2MouseClicked
 

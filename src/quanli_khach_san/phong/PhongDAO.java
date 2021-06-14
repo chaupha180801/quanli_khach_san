@@ -111,6 +111,7 @@ public class PhongDAO {
         } catch (SQLException e) {
         }
 
+
         return list;
     }
 
@@ -148,6 +149,46 @@ public class PhongDAO {
         return list;
     }
 
+    public Integer querySoNgayThueByTP(ThuePhong tp) {
+
+        String sqlQuery = "SELECT NGBD-NGKT SONGAY FROM THUE_PHONG WHERE MAPH = ?  AND MAPHIEUTP =? " +
+                " Order by MAPH";
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setString(1,tp.getMAPH());
+            preparedStatementShow.setString(2,tp.getMAPHIEUTP());
+            ResultSet rs = preparedStatementShow.executeQuery();
+
+            while (rs.next()) {
+
+                return MyConvert.parseStringToInt(rs.getString("SONGAY")+1);
+
+            }
+        } catch (SQLException e) {
+        }
+
+        return Integer.MIN_VALUE;
+    }
+
+    public Integer queryTongTienTPByHD(HoaDon hd) {
+
+        String sqlQuery = "SELECT TIENTP FROM PHIEUTHUEPHONG WHERE MAPHIEUTP =? " ;
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setString(1,hd.getSOHD());
+
+            ResultSet rs = preparedStatementShow.executeQuery();
+
+            while (rs.next()) {
+
+                return rs.getInt("TIENTP");
+
+            }
+        } catch (SQLException e) {
+        }
+
+        return Integer.MIN_VALUE;
+    }
     public boolean deleteTP(ArrayList<ThuePhong> list) {
         PreparedStatement ps = null;
 

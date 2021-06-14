@@ -23,8 +23,7 @@ import java.util.stream.Collectors;
  */
 public class KhachHangFrame extends javax.swing.JFrame {
 
-    public static Integer IS_INSERT = 1;
-    public static Integer IS_UPDATE = 2;
+
     private KhachHangDAO KHDAO = new KhachHangDAO();
     private JButton buttonIsSelected = new JButton();
     private ArrayList<KhachHang> listIsSelected = new ArrayList<>();

@@ -8,7 +8,6 @@
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/datphong/DatPhongDAO.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/phong/ChonPhong.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/taikhoan/ThongTinTK.java</file>
-            <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/KHACH_HANG.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/khuyenmai/KhuyenMaiDAO.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/phong/DanhSachPhongFrame.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/phong/DanhSachPhongDAO.java</file>
@@ -20,6 +19,8 @@
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/datphong/DatPhong.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/quydinh/QuyDinh.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/dichvu/DichVuFrame.java</file>
+            <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/dichvu/ChonDichVu.java</file>
+            <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/hoadon/ThongTinTT.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/khachhang/ThongTinKhachHang.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/dichvu/ThongTinDV.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/nhanvien/ThongTinNV.java</file>
@@ -28,7 +29,6 @@
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/taikhoan/TaiKhoanFrame.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/hoadon/HoaDonFrameNew.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/khachhang/KhachHangDAO.java</file>
-            <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/Employee.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/hoadon/ThongTinHD.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/homepage/home.java</file>
             <file>file:/C:/Users/khanh/Desktop/PTTK/quanli_khach_san-main/src/quanli_khach_san/homepage/TongQuan.java</file>

@@ -2,6 +2,7 @@ package quanli_khach_san.nhanvien;
 
 import quanli_khach_san.database.Database;
 import quanli_khach_san.dichvu.DichVu;
+import quanli_khach_san.hoadon.HoaDon;
 
 
 import javax.swing.*;
@@ -48,9 +49,40 @@ public class NhanVienDAO {
 
         return list;
     }
+
+    public NhanVien queryNVbyHD(HoaDon hoadon) {
+
+        String sqlQuery = "SELECT * from NHANVIEN WHERE MANV =?";
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setString(1,hoadon.getMANV());
+            ResultSet rs = preparedStatementShow.executeQuery();
+
+            while (rs.next()) {
+
+                String manv = rs.getString("MANV");
+                String maql = rs.getString("MAQL");
+
+                String tennv = rs.getString("HOTEN");
+
+                String gioitinh = rs.getString("GIOITINH");
+                String dc = rs.getString("DCHI");
+                String sdt = rs.getString("SODT");
+                Date ngsinh=rs.getDate("NGSINH");
+                Date ngvl=rs.getDate("NGVL");
+                Integer luong =rs.getInt("LUONG");
+                return new NhanVien(manv,maql, tennv, gioitinh, dc,sdt, ngsinh,ngvl,luong);
+
+            }
+        } catch (SQLException e) {
+        }
+
+
+        return new NhanVien();
+    }
     public void insert(NhanVien nv)
     {
-        String SQL = "insert into NHANVIEN( HOTEN, MAQL,GIOITINH , DCHI, SODT,NGSINH, NGVL, LUONG) values(?,?,?,?,?,?,?,?)";
+        String SQL = "insert into NHANVIEN( HOTEN, MAQL ,GIOITINH , DCHI, SODT,NGSINH, NGVL, LUONG) values(?,?,?,?,?,?,?,?)";
 
 
         PreparedStatement ps = null;

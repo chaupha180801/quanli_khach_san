@@ -23,7 +23,7 @@ public class ChonPhong extends javax.swing.JFrame {
 
     private ArrayList<Phong> listIsSelected = new ArrayList<>();
     private ArrayList<Phong> listPhongFull = new ArrayList<>();
-    private ArrayList<Phong> listPhongAll = new ArrayList<>();
+    private ArrayList<Phong> listPhongEmp = new ArrayList<>();
 
     /**
      * Creates new form ChonPhong
@@ -40,9 +40,11 @@ public class ChonPhong extends javax.swing.JFrame {
     }
 
     public ChonPhong() {
-        listPhongAll = PDAO.queryAllPhong();
+
         initComponents();
-        paintHotelRoom();
+        listPhongEmp = PDAO.queryAllPhongEmptyStEd(dateTuNgay.getDate(),dateDenNgay.getDate());
+        listPhongFull=PDAO.queryAllPhongFullByStEd(dateTuNgay.getDate(),dateDenNgay.getDate());
+        reset();
 
     }
 
@@ -50,15 +52,16 @@ public class ChonPhong extends javax.swing.JFrame {
     private void reset() {
         jPanel8.removeAll();
         jPanel8.repaint();
-        paintHotelRoom();
+        listIsSelected.removeAll(listIsSelected);
+        
         paintHotelRoomFull();
-
+        paintHotelRoomEmp();
     }
 
-    private void paintHotelRoom() {
+    private void paintHotelRoomEmp() {
 
         //System.out.println( list.toString());
-        for (Phong p : listPhongAll) {
+        for (Phong p : listPhongEmp) {
             JButton btnPhongTemp = new javax.swing.JButton();
             btnPhongTemp.setBackground(new java.awt.Color(204, 204, 255));
             btnPhongTemp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quanli_khach_san/drawable/bed_icon.png"))); // NOI18N
@@ -70,7 +73,7 @@ public class ChonPhong extends javax.swing.JFrame {
 
             btnPhongTemp.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    List<Phong> imcomes1 = listPhongAll.stream().filter(i -> i.getMAPH().equals(btnPhongTemp.getText()))
+                    List<Phong> imcomes1 = listPhongEmp.stream().filter(i -> i.getMAPH().equals(btnPhongTemp.getText()))
                             .collect(Collectors.toList());
                     List<Phong> imcomes2 = listIsSelected.stream().filter(i -> i.getMAPH().equals(btnPhongTemp.getText()))
                             .collect(Collectors.toList());
@@ -132,7 +135,7 @@ public class ChonPhong extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         btnOKE = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1483, 100));
@@ -331,8 +334,11 @@ public class ChonPhong extends javax.swing.JFrame {
         // TODO add your handling code here:
         java.util.Date utilStartDate = dateTuNgay.getDate();
         java.util.Date utilEndDate = dateDenNgay.getDate();
-        listPhongTrong = PDAO.queryAllPhongEmptyStEd(utilStartDate, utilEndDate);
+        listPhongEmp = PDAO.queryAllPhongEmptyStEd(utilStartDate, utilEndDate);
+
+
         listPhongFull = PDAO.queryAllPhongFullByStEd(utilStartDate, utilEndDate);
+
         reset();
     }//GEN-LAST:event_btnSetDateActionPerformed
 
@@ -396,7 +402,6 @@ public class ChonPhong extends javax.swing.JFrame {
         });
     }
 
-    private ArrayList<Phong> listPhongTrong = new ArrayList<>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOKE;

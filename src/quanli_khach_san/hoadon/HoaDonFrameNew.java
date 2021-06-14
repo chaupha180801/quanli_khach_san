@@ -26,13 +26,12 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
     /**
      * Creates new form HoaDonFrameNew
      */
-    private Thread threadTOTThd;
+    private Thread threadGui;
     private HoaDonDAO HDDAO = new HoaDonDAO();
     private JButton buttonIsSelected = new JButton();
     private ArrayList<HoaDon> listIsSelected = new ArrayList<>();
     private ArrayList<HoaDon> listhd = new ArrayList<>();
     private Color colorPre = new Color(255, 255, 255);
-    private Thread threadGui;
     private TongQuan tongquanframe;
     // private ArrayList<HoaDon> listKHMember =new ArrayList<>();
     // private ArrayList<HoaDon> listKHNormal =new ArrayList<>();
@@ -439,10 +438,10 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     {
-                        synchronized (threadTOTThd) {
+                        synchronized (threadGui) {
                             // Pause
                             try { //code sau khi mở lại luồng chính
-                                threadTOTThd.wait();
+                                threadGui.wait();
 
                                 notifyDateChange();
                             } catch (InterruptedException e) {
@@ -455,12 +454,12 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
 
             };
 
-            threadTOTThd = new Thread(runnable);
+            threadGui = new Thread(runnable);
 
-            child.setTheadTTHD(threadTOTThd, listIsSelected.get(0));
+            child.setTheadTTHD(threadGui, listIsSelected.get(0));
 
             //từ đây trở lên là trước khi luồng chính bị đóng
-            threadTOTThd.start();
+            threadGui.start();
         }
     }//GEN-LAST:event_btnCNCActionPerformed
 
@@ -496,7 +495,34 @@ public class HoaDonFrameNew extends javax.swing.JFrame {
 
     private void btnTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTTActionPerformed
         // TODO add your handling code here:
+        ThongTinTT child = new ThongTinTT();
+        child.setVisible(true);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                {
+                    synchronized (threadGui) {
+                        // Pause
+                        try { //code sau khi mở lại luồng chính
+                            threadGui.wait();
 
+                            notifyDateChange();
+                        } catch (InterruptedException e) {
+                        }
+                    }
+
+                }
+            }
+
+
+        };
+
+        threadGui = new Thread(runnable);
+
+        child.setTheadTTTT(threadGui, listIsSelected.get(0));
+
+        //từ đây trở lên là trước khi luồng chính bị đóng
+        threadGui.start();
     }//GEN-LAST:event_btnTTActionPerformed
 
     /**

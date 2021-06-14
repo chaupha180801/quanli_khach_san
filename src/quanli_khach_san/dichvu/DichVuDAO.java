@@ -127,7 +127,73 @@ public class DichVuDAO {
         }
         return list;
     }
+    public DichVu queryDVByTDV(ThueDichVu thueDichVu )
+    {
+        DichVu dv = new DichVu();
+        String sqlQuery = "SELECT DISTINCT * from DICHVU WHERE MADV =?  "+
+                " Order by MADV";
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setString(1,thueDichVu.getMADV());
+            ResultSet rs = preparedStatementShow.executeQuery();
 
+            while (rs.next()) {
+
+                String madv = rs.getString("MADV");
+                String tendv = rs.getString("TENDV");
+                Integer giadv = rs.getInt("GIADV");
+
+                dv.setGIADV(giadv);
+                dv.setTENDV(tendv);
+                dv.setMADV(madv);
+
+            }
+        } catch (SQLException e) {
+        }
+        return dv;
+
+    }
+
+    public Integer soNgayThueDVbyTDV(ThueDichVu thueDichVu )
+    {
+        //System.out.println("sohd: "+hoadon.toString());
+        ArrayList<ThueDichVu> list = new ArrayList<>();
+        String sqlQuery = "SELECT NGAYKT-NGAYBD SONGAY from THUE_DICH_VU WHERE MADV =? AND MAPHIEUTDV = ? "+
+                " Order by MADV";
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setString(1,thueDichVu.getMADV());
+            preparedStatementShow.setString(2,thueDichVu.getMAPHIEUTDV());
+            ResultSet rs = preparedStatementShow.executeQuery();
+
+            while (rs.next()) {
+
+                return MyConvert.parseStringToInt(rs.getString("SONGAY")+1);
+
+            }
+        } catch (SQLException e) {
+        }
+        return Integer.MIN_VALUE;
+    }
+    public Integer queryTongTienDVByHD(HoaDon hd) {
+
+        String sqlQuery = "SELECT TIENTDV FROM PHIEUTHUEDICHVU WHERE MAPHIEUTDV =? " ;
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+            preparedStatementShow.setString(1,hd.getSOHD());
+
+            ResultSet rs = preparedStatementShow.executeQuery();
+
+            while (rs.next()) {
+
+                return rs.getInt("TIENTDV");
+
+            }
+        } catch (SQLException e) {
+        }
+
+        return Integer.MIN_VALUE;
+    }
     public boolean updateDatabase(DichVu dv) {
         try {
 

@@ -7,6 +7,7 @@ import quanli_khach_san.phong.Phong;
 
 import javax.swing.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -188,6 +189,22 @@ public class HoaDonDAO {
     public boolean updateDatabase(HoaDon hd) {
         return insertDatabase(hd);
 
+
+    }
+
+    public void thanhToan(HoaDon hd) {
+        String queryHD = "UPDATE HOADON SET NGAYHD = ? WHERE SOHD =?";
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(queryHD);
+            Date date = new Date(System.currentTimeMillis());
+            ps.setDate(1, new java.sql.Date(date.getTime()));
+            ps.setString(2, hd.getSOHD());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+
+        }
 
     }
 

@@ -100,6 +100,27 @@ public class KhuyenMaiDAO {
             throwables.printStackTrace();
         }
     }
+    public boolean insertKMintoHD(HoaDon hd, KhuyenMai km)
+    {
+        String SQL = "update HOADON set   TENKM=? where SOHD = ?";
+
+
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(SQL);
+
+            ps.setString(1, km.getMAKM());
+            ps.setString(2, hd.getSOHD());
+
+
+
+            ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
 
 

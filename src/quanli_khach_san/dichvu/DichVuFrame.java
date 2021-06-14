@@ -443,9 +443,9 @@ public class DichVuFrame extends javax.swing.JFrame {
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         // TODO add your handling code here:
                 int row = this.table.getSelectedRow();
-                this.txtMaDV.setText(table.getValueAt(row, 0).toString());
-                this.txtTenDV.setText(table.getValueAt(row, 1).toString());
-                this.txtGiaDV.setText(table.getValueAt(row, 2).toString());
+                this.txtMaDV.setText(MyConvert.parseObjToString(table.getValueAt(row, 0)));
+                this.txtTenDV.setText(MyConvert.parseObjToString(table.getValueAt(row, 1)));
+                this.txtGiaDV.setText(MyConvert.parseObjToString(table.getValueAt(row, 2)));
     }//GEN-LAST:event_tableMouseClicked
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed

@@ -372,7 +372,7 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
     }
     public KhuyenMai getKhuyenMaiIsSelected()
     {
-        return listIsSelected.get(0);
+        return listIsSelected.isEmpty()?null:listIsSelected.get(0);
     }
     public void setThreadNhan(Thread th)
     {

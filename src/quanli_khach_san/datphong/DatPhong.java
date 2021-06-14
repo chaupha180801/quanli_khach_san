@@ -15,6 +15,7 @@ import quanli_khach_san.khuyenmai.KhuyenMaiFrame;
 import quanli_khach_san.nhanvien.NhanVien;
 import quanli_khach_san.phong.ChonPhong;
 import quanli_khach_san.phong.Phong;
+import quanli_khach_san.phong.ThuePhong;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -37,6 +38,7 @@ public class DatPhong extends javax.swing.JFrame {
     private DatPhongDAO DPDAO = new DatPhongDAO();
     private Thread threadNhan;
     private KhuyenMai khuyenmai;
+    private ArrayList<ThuePhong> listThuePh=new ArrayList<>();
 
     private HoaDon hoadon;
 
@@ -97,21 +99,34 @@ public class DatPhong extends javax.swing.JFrame {
                     String StrTemp = words[1];
 
 
-                    Object[] options = {"Có", "Không"};
+                    Object[] options = {"Nhập số người", "Xoá đặt phòng", "Thoát"};
                     int result = JOptionPane.showOptionDialog(this,
-                            "Bạn có muốn huỷ chọn phòng này không?",
+                            "Bạn muốn nhập số người hay xoá đặt phòng này?",
                             "Chi tiết",
-                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE,
                             null,
                             options,
-                            options[1]);
+                            options[2]);
 
                     if (result == JOptionPane.YES_OPTION) {
+                        String songuoi = JOptionPane.showInputDialog(this,"Nhập số người", "Chi tiết phòng", JOptionPane.DEFAULT_OPTION);
+                        if ((!songuoi.isEmpty())) {
+                            List<Phong> matches = listPhong.stream().filter(it -> it.getMAPH().toString().contains(StrTemp)).collect(Collectors.toList());
+                            List<ThuePhong> phongtrongthuephong = listThuePh.stream().filter(it -> it.getMAPH().toString().contains(matches.get(0).getMAPH())).collect(Collectors.toList());
+                            if (!phongtrongthuephong.isEmpty()) listThuePh.removeAll(phongtrongthuephong);
+                            ThuePhong thNew = new ThuePhong();
+                            thNew.setMAPH(matches.get(0).getMAPH());
+                            thNew.setSONGUOITHUE(songuoi);
+                            listThuePh.add(thNew);
+
+                            reset();
+                        }
+                    }else if(result==JOptionPane.NO_OPTION)
+                    {
                         List<Phong> matches = listPhong.stream().filter(it -> it.getMAPH().toString().contains(StrTemp)).collect(Collectors.toList());
 
                         listPhong.removeAll(matches);
-                        System.out.println(listPhong.toString());
 
                         reset();
                     }
@@ -430,7 +445,7 @@ public class DatPhong extends javax.swing.JFrame {
                         try { //code sau khi mở lại luồng chính
                             threadGui.wait();
                             khuyenmai = (child.getKhuyenMaiIsSelected());
-                            btnKM.setText(khuyenmai.getMAKM());
+                            if (khuyenmai != null) btnKM.setText(khuyenmai.getMAKM());
                         } catch (InterruptedException e) {
                         }
                     }
@@ -510,9 +525,9 @@ public class DatPhong extends javax.swing.JFrame {
             thongBaoKetThuc();
         else {
             if (isInstace == MyInstance.IS_ADD)
-                DPDAO.insertKHintoPhong(khachHang, nhanvien, listPhong, dateTuNgay.getDate(), dateDenNgay.getDate(), khuyenmai);
+                DPDAO.insertKHintoPhong(khachHang, nhanvien, listPhong,listThuePh, dateTuNgay.getDate(), dateDenNgay.getDate(), khuyenmai);
             else if (isInstace == MyInstance.IS_EDIT)
-                DPDAO.insertKHintoPhong(khachHang, nhanvien, listPhong, dateTuNgay.getDate(), dateDenNgay.getDate(), khuyenmai);
+                DPDAO.insertKHintoPhong(khachHang, nhanvien, listPhong,listThuePh, dateTuNgay.getDate(), dateDenNgay.getDate(), khuyenmai);
             dispose();
         }
 

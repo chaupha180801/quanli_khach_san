@@ -295,17 +295,17 @@ public class NhanVienFrame extends javax.swing.JFrame {
         try {
             int row = this.jTable2.getSelectedRow();
             isSelected = new NhanVien();
-            isSelected.setMANV(jTable2.getValueAt(row, 0).toString());
-            isSelected.setMAQL(jTable2.getValueAt(row, 1).toString());
-            isSelected.setHOTEN(jTable2.getValueAt(row, 2).toString());
+            isSelected.setMANV(MyConvert.parseObjToString(jTable2.getValueAt(row, 0)));
+            isSelected.setMAQL(MyConvert.parseObjToString(jTable2.getValueAt(row, 1)));
+            isSelected.setHOTEN(MyConvert.parseObjToString(jTable2.getValueAt(row, 2)));
 
-            isSelected.setGIOITINH(jTable2.getValueAt(row, 3).toString());
-            isSelected.setDCHI(jTable2.getValueAt(row, 4).toString());
-            isSelected.setSODT(jTable2.getValueAt(row, 5).toString());
+            isSelected.setGIOITINH(MyConvert.parseObjToString(jTable2.getValueAt(row, 3)));
+            isSelected.setDCHI(MyConvert.parseObjToString(jTable2.getValueAt(row, 4)));
+            isSelected.setSODT(MyConvert.parseObjToString(jTable2.getValueAt(row, 5)));
             isSelected.setNGSINH(new SimpleDateFormat("yyyy-MM-dd").parse(jTable2.getValueAt(row, 6).toString()));
             isSelected.setNGVL(new SimpleDateFormat("yyyy-MM-dd").parse(jTable2.getValueAt(row, 7).toString()));
 
-            isSelected.setLUONG(MyConvert.parseStringToInt(jTable2.getValueAt(row, 7).toString()));
+            isSelected.setLUONG(MyConvert.parseObjToInt(jTable2.getValueAt(row, 7)));
         } catch (ParseException e) {
             e.printStackTrace();
         }

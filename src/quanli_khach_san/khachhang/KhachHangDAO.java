@@ -26,7 +26,7 @@ public class KhachHangDAO {
 
     public ArrayList<KhachHang> queryAllKhachHang() {
         ArrayList<KhachHang> list = new ArrayList<>();
-        String sqlQuery = "SELECT DISTINCT * from KHACHHANG Order by MAKH";
+        String sqlQuery = "SELECT  * from KHACHHANG Order by MAKH";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
 
@@ -82,6 +82,7 @@ public class KhachHangDAO {
 
     public ArrayList<KhachHang> queryAllKHNormal() {
         ArrayList<KhachHang> listMember = queryAllKHMember();
+
        /* String sqlQuery = "SELECT * from KHACHHANG WHERE LOAIKH='thuong' Order by MAKH";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
@@ -105,6 +106,7 @@ public class KhachHangDAO {
         } catch (SQLException e) {
         }*/
         ArrayList<KhachHang> listAll = queryAllKhachHang();
+
         listAll.removeAll(listMember);
 
         return listAll;
@@ -147,7 +149,7 @@ public class KhachHangDAO {
             throwables.printStackTrace();
 
         }
-        ;
+
     }
 
     public void updateKH(KhachHang khachhang) {
@@ -175,8 +177,7 @@ public class KhachHangDAO {
 
     public KhachHang queryKHbyHD(HoaDon hd) {
         String sqlQuery = "SELECT DISTINCT * from KHACHHANG WHERE MAKH IN ( " +
-                "SELECT MAKH FROM HOADON WHERE SOHD = ?) " +
-                "Order by MAKH";
+                "SELECT MAKH FROM HOADON WHERE SOHD = ? ) ";
         try {
             PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
             preparedStatementShow.setString(1, hd.getSOHD());
