@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="quanli_khach_san-main:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/quanli_khach_san_main_jar</output-path>
+    <root id="archive" name="quanli_khach_san-main_jar.jar">
+      <element id="module-output" name="quanli_khach_san-main" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/quanli_khach_san/tool/ojdbc6-11.2.0.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/quanli_khach_san/tool/jcalendar-1.2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/quanli_khach_san/tool/jcalendar-1.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/quanli_khach_san/tool/ojdbc10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/quanli_khach_san/tool/ojdbc8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/quanli_khach_san/tool/swing-layout-1.0.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
