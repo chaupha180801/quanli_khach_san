@@ -27,13 +27,13 @@ public class DatPhongDAO {
     public Integer insertKHintoPhong(KhachHang khachHang, NhanVien nhanvien, ArrayList<Phong> listPhong,ArrayList<ThuePhong> listThueP, Date startDate, Date endDate, KhuyenMai khuyenmai) {
         //1 là chạy đúng, 0 là chạy sai
         Integer resultCode = 1;
-        String songuoithue="0";
+        Integer songuoithue=0;
 
         CallableStatement cstmt = null;
         for (Phong p : listPhong){
-            songuoithue="0";
+            songuoithue=0;
             List<ThuePhong> tpSelected =  listThueP.stream().filter(it -> it.getMAPH().toString().contains(p.getMAPH())).collect(Collectors.toList());
-            if (!tpSelected.isEmpty()) songuoithue=tpSelected.get(0).getSONGUOITHUE();
+            if (!(tpSelected.isEmpty()) && songuoithue>=0) songuoithue=tpSelected.get(0).getSONGUOITHUE();
             try {
                 cstmt = connection.prepareCall("{CALL proc_insert_datphong(?,?,?,?,?,?,?)}");
 
@@ -41,7 +41,7 @@ public class DatPhongDAO {
                 cstmt.setString(1, khachHang.getMAKH());
                 cstmt.setString(2, "NV0001");
                 cstmt.setString(3, p.getMAPH());
-                cstmt.setString(4, songuoithue);
+                cstmt.setInt(4, songuoithue);
                 cstmt.setDate(5, new java.sql.Date(startDate.getTime()));
 
                 cstmt.setDate(6, new java.sql.Date(endDate.getTime()));

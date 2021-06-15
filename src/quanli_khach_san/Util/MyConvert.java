@@ -32,5 +32,18 @@ public class MyConvert {
         return a.toString();
     }
 
+    public static Integer parseFloatToInt(Float a)
+    {
+        if (a==null) return Integer.MIN_VALUE;
+        float fa= a;
+        return (int) fa;
+    }
+
+    public static Integer parseDoubleToInt(Double a)
+    {
+        if (a==null) return Integer.MIN_VALUE;
+        double da= a;
+        return (int) da;
+    }
 
 }

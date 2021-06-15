@@ -95,12 +95,12 @@ public class MyPrinter extends Graphics implements Printable {
 
         hoadon=hd; listThueDichVu=listtdv; listThuePhong=listtp;
         khachhang= new KhachHangDAO().queryKHbyHD(hoadon);
-        noidung+="KHÁCH SẠN ÁNH DƯƠNG\n " +
+        noidung+="KHÁCH SẠN ÁNH DƯƠNG\n" +
                 "Khu phố 6 phường Linh Trung, thành phố Thủ Đức\n"+
                 "BIÊN NHẬN THANH TOÁN THUÊ KHÁCH SẠN\n\n" +
                 "Mã KH: "+khachhang.getMAKH() +"\n" +
                 "Tên KH: "+khachhang.getTENKH()+"\n" +
-                "Ngày hoá đơn: "+date+" \n" +
+                "Ngày hoá đơn: "+date+"\n" +
                 "------------------------------- \n" ;
         for (ThuePhong tp:listThuePhong)
         {
@@ -109,7 +109,7 @@ public class MyPrinter extends Graphics implements Printable {
                     "Đơn giá: "+(new DanhSachPhongDAO().queryDSPbyTP(tp)).getDONGIA()+
             "\nSố ngày thuê "+new PhongDAO().querySoNgayThueByTP(tp)+
             "\nTiền phòng: "+ tp.getTIEN()+
-                    "\n ";
+                    "\n";
         }
         noidung+="TỔNG TIỀN PHÒNG: " + MyConvert.parseObjToString(new PhongDAO().queryTongTienTPByHD(hoadon))+
                 "\n" ;

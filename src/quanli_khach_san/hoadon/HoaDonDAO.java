@@ -148,17 +148,6 @@ public class HoaDonDAO {
     public boolean deleteDatabase(HoaDon hd) {
         PreparedStatement ps = null;
         try {
-            String queryHD = "DELETE FROM HOADON WHERE SOHD =?";
-
-            ps = connection.prepareStatement(queryHD);
-            ps.setString(1, hd.getSOHD());
-
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            return false;
-        }
-
-        try {
             String queryPTP = "DELETE FROM THUE_PHONG WHERE MAPHIEUTP =?";
             ps = connection.prepareStatement(queryPTP);
             ps.setString(1, hd.getMAPHIEUTP());
@@ -169,6 +158,18 @@ public class HoaDonDAO {
             throwables.printStackTrace();
             return false;
         }
+        try {
+            String queryHD = "DELETE FROM HOADON WHERE SOHD =?";
+
+            ps = connection.prepareStatement(queryHD);
+            ps.setString(1, hd.getSOHD());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            return false;
+        }
+
+
         try {
             String queryPTP = "DELETE FROM PHIEUTHUEPHONG WHERE MAPHIEUTP =?";
             ps = connection.prepareStatement(queryPTP);

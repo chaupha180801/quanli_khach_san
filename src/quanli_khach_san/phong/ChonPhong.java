@@ -356,6 +356,14 @@ public class ChonPhong extends javax.swing.JFrame {
 
         return listIsSelected;
     }
+    public Date getNGBD()
+    {
+        return dateTuNgay.getDate();
+    }
+    public Date getNGKT()
+    {
+        return dateDenNgay.getDate();
+    }
 
     public void beginThread(Thread t) {
         threadNhan = t;

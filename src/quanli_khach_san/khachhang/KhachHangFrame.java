@@ -5,6 +5,7 @@
  */
 package quanli_khach_san.khachhang;
 
+import quanli_khach_san.Util.MyScrollPanel;
 import quanli_khach_san.phong.Phong;
 import quanli_khach_san.phong.ThongTinPhongAdapter;
 
@@ -37,6 +38,8 @@ public class KhachHangFrame extends javax.swing.JFrame {
     public KhachHangFrame() {
 
         initComponents();
+        btnOKE1.setVisible(false);
+        btnTKNC.setVisible(false);
         reSet();
 
     }
@@ -155,6 +158,7 @@ public class KhachHangFrame extends javax.swing.JFrame {
         btnOKE1 = new javax.swing.JButton();
         btnX = new javax.swing.JButton();
         btnS = new javax.swing.JButton();
+        btnTKNC = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -167,7 +171,7 @@ public class KhachHangFrame extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1270, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,13 +343,18 @@ public class KhachHangFrame extends javax.swing.JFrame {
             }
         });
 
+        btnTKNC.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnTKNC.setText("Tìm kiếm nâng cao");
+        btnTKNC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTKNCActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 10, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -354,11 +363,14 @@ public class KhachHangFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnOKE1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnOKE1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTKNC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1280, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -377,7 +389,9 @@ public class KhachHangFrame extends javax.swing.JFrame {
                         .addComponent(btnX, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnS, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnTKNC, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOKE1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -410,6 +424,11 @@ public class KhachHangFrame extends javax.swing.JFrame {
 
     public void setKHThread(Thread t) {
         threadNhan = t;
+        btnOKE1.setVisible(true);
+        btnTKNC.setVisible(true);
+        btnThem.setVisible(false);
+        btnX.setVisible(false);
+        btnS.setVisible(false);
     }
 
     public KhachHang getKHIsSelected() {
@@ -489,8 +508,22 @@ public class KhachHangFrame extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        List<KhachHang> matches = listKHMember.stream().filter(it -> it.getMAKH().contains(txtSearch.getText())).collect(Collectors.toList());
-        lbSelected.setText(matches.get(0).getMAKH());
+        List<KhachHang> matches1 = listKHMember.stream().filter(it -> it.getMAKH().contains(txtSearch.getText())).collect(Collectors.toList());
+        List<KhachHang> matches2 = listKHNormal.stream().filter(it -> it.getMAKH().contains(txtSearch.getText())).collect(Collectors.toList());
+        Double pos=0.0;
+        if(!matches1.isEmpty())
+        {
+
+            pos=1.0*listKHMember.indexOf(matches1.get(0))/(listKHMember.size()+listKHNormal.size());
+            MyScrollPanel.scroll(jScrollPane2,pos,0.0);
+        }else if (!matches2.isEmpty())
+        {
+            pos=1.0*(listKHMember.size()+listKHNormal.indexOf(matches2.get(0)))/(listKHMember.size()+listKHNormal.size());
+            MyScrollPanel.scroll(jScrollPane2,pos,0.0);
+
+        }
+
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
 
@@ -526,6 +559,10 @@ public class KhachHangFrame extends javax.swing.JFrame {
 
         // new CHILD().setVisible(true);
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnTKNCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKNCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTKNCActionPerformed
 
 
     public JPanel getPanel() {
@@ -568,6 +605,7 @@ public class KhachHangFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnOKE1;
     private javax.swing.JButton btnS;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnTKNC;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnX;
     private javax.swing.JLabel jLabel1;

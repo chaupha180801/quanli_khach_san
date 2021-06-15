@@ -130,7 +130,7 @@ public class PhongDAO {
                 String maph = rs.getString("MAPH");
 
                 String maphieutp = rs.getString("MAPHIEUTP");
-                String songuoithue = rs.getString("SONGUOITHUE");
+                Integer songuoithue = rs.getInt("SONGUOITHUE");
                 Float phuthu = rs.getFloat("PHUTHU");
                 Date ngbd=rs.getDate("NGBD");
                 Date ngkt=rs.getDate("NGKT");
