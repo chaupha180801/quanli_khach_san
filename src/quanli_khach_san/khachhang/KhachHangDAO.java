@@ -1,6 +1,7 @@
 package quanli_khach_san.khachhang;
 
 import quanli_khach_san.database.Database;
+import quanli_khach_san.dichvu.DichVu;
 import quanli_khach_san.hoadon.HoaDon;
 
 import javax.swing.*;
@@ -110,6 +111,86 @@ public class KhachHangDAO {
         listAll.removeAll(listMember);
 
         return listAll;
+    }
+    public ArrayList<KhachHang> queryByKH(KhachHang kh) {
+
+
+        boolean preNode=false;
+        ArrayList<KhachHang> list=new ArrayList<>();
+        String sqlQuery =
+                "SELECT * from KHACHHANG " +
+                        "where ";
+
+        if (kh.getMAKH()!=null) {
+            sqlQuery += "MAKH LIKE ('%'||'" + String.valueOf(kh.getMAKH()) + "'||'%') ";
+            preNode = true;
+        }
+        if (kh.getTENKH()!=null && !kh.getTENKH().isEmpty()) {
+            if (preNode==true) sqlQuery+=" AND ";
+            sqlQuery += " TENkh LIKE ('%'||'" + kh.getTENKH() + "'||'%') ";
+            preNode = true;
+        }
+        if (kh.getCMND()!=null && !kh.getCMND().isEmpty()) {
+            if (preNode==true) sqlQuery+=" AND ";
+            sqlQuery += " CMND LIKE ('%'||'" + kh.getCMND() + "'||'%') ";
+            preNode = true;
+        }
+        if (kh.getQUOCTICH()!=null && !kh.getQUOCTICH().isEmpty()) {
+            if (preNode==true) sqlQuery+=" AND ";
+            sqlQuery += " QUOCTICH LIKE ('%'||'" + kh.getQUOCTICH() + "'||'%') ";
+            preNode = true;
+        }
+        String sysdate = new java.sql.Date(new Date(System.currentTimeMillis()).getTime()).toString();
+
+
+        String inputdate = new java.sql.Date(kh.getNGSINH().getTime()).toString();
+
+        if (kh.getNGSINH()!=null && !sysdate.equals(inputdate) ) {
+            if (preNode==true) sqlQuery+=" AND ";
+            sqlQuery += " NGAYSINH = TO_DATE('" + new java.sql.Date(kh.getNGSINH().getTime()).toString() + "','yyyy,mm,dd') ";
+            preNode = true;
+        }
+        if (kh.getDIACHI()!=null && !kh.getDIACHI().isEmpty()) {
+            if (preNode==true) sqlQuery+=" AND ";
+            sqlQuery += " DIACHI LIKE ('%'||'" + kh.getDIACHI() + "'||'%') ";
+            preNode = true;
+        }
+        if (kh.getSDT()!=null && !kh.getSDT().isEmpty()) {
+            if (preNode==true) sqlQuery+=" AND ";
+            sqlQuery += " SDT LIKE ('%'||'" + kh.getSDT() + "'||'%') ";
+            preNode = true;
+        }
+        if (kh.getLOAIKH()!=null && !kh.getSDT().isEmpty()) {
+            if (preNode==true) sqlQuery+=" AND ";
+            sqlQuery += " LOAIKH LIKE ('%'||'" + kh.getLOAIKH() + "'||'%') ";
+            preNode = true;
+        }
+        sqlQuery+=" ORDER BY MAkh";
+
+        try {
+            PreparedStatement preparedStatementShow = this.connection.prepareStatement(sqlQuery);
+
+            ResultSet rs = preparedStatementShow.executeQuery();
+            while (rs.next()) {
+
+                String makh = rs.getString("MAKH");
+                String tenkh = rs.getString("TENKH");
+                String cmnd = rs.getString("CMND");
+                String quoctich = rs.getString("QUOCTICH");
+                Date ngsinh = rs.getDate("NGSINH");
+                String sdt = rs.getString("SDT");
+                String diachi = rs.getString("DIACHI");
+                String loaikh = rs.getString("LOAIKH");
+
+
+                list.add(new KhachHang(makh, tenkh, cmnd, quoctich, ngsinh, sdt, diachi, loaikh));
+
+            }
+        } catch (SQLException e) {
+        }
+
+
+        return list;
     }
 
     public void removeKH(KhachHang khachhang) {

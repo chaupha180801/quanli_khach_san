@@ -39,7 +39,6 @@ public class KhachHangFrame extends javax.swing.JFrame {
 
         initComponents();
         btnOKE1.setVisible(false);
-        btnTKNC.setVisible(false);
         reSet();
 
     }
@@ -364,11 +363,8 @@ public class KhachHangFrame extends javax.swing.JFrame {
                     .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnOKE1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnTKNC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(btnTKNC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnOKE1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1280, Short.MAX_VALUE)
         );
@@ -479,8 +475,8 @@ public class KhachHangFrame extends javax.swing.JFrame {
                             // Pause
                             try { //code sau khi mở lại luồng chính
                                 threadGui.wait();
-
                                 reSet();
+
                             } catch (InterruptedException e) {
                             }
                         }
@@ -562,6 +558,51 @@ public class KhachHangFrame extends javax.swing.JFrame {
 
     private void btnTKNCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKNCActionPerformed
         // TODO add your handling code here:
+        ThongTinKhachHang child = new ThongTinKhachHang();
+        child.setVisible(true);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                {
+                    synchronized (threadGui) {
+                        // Pause
+                        try { //code sau khi mở lại luồng chính
+                            threadGui.wait();
+                            ArrayList<KhachHang> listFound=child.getKHFound();
+
+                            if (listFound.isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu cần tìm.", "Thông báo", 1);
+                            }
+                            else {
+                                List<KhachHang> matches1 = listKHMember.stream().filter(it -> it.getMAKH().contains(listFound.get(0).getMAKH())).collect(Collectors.toList());
+                                List<KhachHang> matches2 = listKHNormal.stream().filter(it -> it.getMAKH().contains(listFound.get(0).getMAKH())).collect(Collectors.toList());
+                                Double pos = 0.0;
+                                if (!matches1.isEmpty()) {
+                                    pos = 1.0 * listKHMember.indexOf(matches1.get(0)) / (listKHMember.size() + listKHNormal.size());
+                                    MyScrollPanel.scroll(jScrollPane2, pos, 0.0);
+
+                                } else if (!matches2.isEmpty()) {
+                                    pos = 1.0 * (listKHMember.size() + listKHNormal.indexOf(matches2.get(0))) / (listKHMember.size() + listKHNormal.size());
+                                    MyScrollPanel.scroll(jScrollPane2, pos, 0.0);
+
+                                }
+
+                            }
+                        } catch (InterruptedException e) {
+                        }
+                    }
+
+                }
+            }
+
+
+        };
+
+        threadGui = new Thread(runnable);
+        child.setTimKiem(threadGui);
+
+        //từ đây trở lên là trước khi luồng chính bị đóng
+        threadGui.start();
     }//GEN-LAST:event_btnTKNCActionPerformed
 
 
