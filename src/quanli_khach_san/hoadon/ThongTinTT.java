@@ -180,7 +180,7 @@ public class ThongTinTT extends javax.swing.JFrame {
         lnDV = new javax.swing.JLabel();
         lbTT = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1483, 100));

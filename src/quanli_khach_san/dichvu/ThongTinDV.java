@@ -14,6 +14,7 @@ import quanli_khach_san.phong.Phong;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,7 @@ public class ThongTinDV extends javax.swing.JFrame {
     private Thread threadNhan;
     DichVuDAO DVDAO = new DichVuDAO();
     DichVu dv;
+    private ArrayList<DichVu> listDV;
 
     public ThongTinDV() {
         initComponents();
@@ -235,7 +237,7 @@ public class ThongTinDV extends javax.swing.JFrame {
             Object[] options = {"Có", "Quay lại"};
             int result = JOptionPane.showOptionDialog(this
                     ,
-                    "Bạn chưa nhập tên dịch vụ, bạn có chắc chắn muốn lưu không?",
+                    "Bạn chưa nhập tên dịch vụ, bạn có chắc chắn muốn tiếp tục không?",
                     "Xác nhận",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
@@ -264,7 +266,7 @@ public class ThongTinDV extends javax.swing.JFrame {
                 break;
                 case 4: {
                     creatDV();
-                    DVDAO.queryByDichVu(dv);
+                    listDV=DVDAO.queryByDichVu(dv);
                 }
                 break;
 
@@ -275,6 +277,10 @@ public class ThongTinDV extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnLActionPerformed
+    public ArrayList<DichVu> getListDV()
+    {
+        return listDV;
+    }
 
     private void btnTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTActionPerformed
         // TODO add your handling code here:

@@ -186,6 +186,25 @@ public class HoaDonDAO {
 
     }
 
+    public boolean deleteKM(HoaDon hd) {
+        PreparedStatement ps = null;
+        try {
+            String queryPTP = "UPDATE HOADON SET MAKM = ''  WHERE SOHD =?";
+            ps = connection.prepareStatement(queryPTP);
+
+            ps.setString(1, hd.getSOHD());
+
+            ps.executeUpdate();
+            return true;
+
+        } catch (SQLException throwables) {
+
+
+            return true;
+
+        }
+    }
+
 
     public boolean updateDatabase(HoaDon hd) {
         return insertDatabase(hd);

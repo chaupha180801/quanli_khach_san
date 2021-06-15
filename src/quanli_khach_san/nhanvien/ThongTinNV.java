@@ -343,7 +343,7 @@ public class ThongTinNV extends javax.swing.JFrame {
             Object[] options = {"Có", "Quay lại"};
             int result = JOptionPane.showOptionDialog(this
                     ,
-                    "Bạn chưa nhập tên nhân viên, bạn có chắc chắn muốn lưu không?",
+                    "Bạn chưa nhập tên nhân viên, bạn có chắc chắn muốn tiếp tục không?",
                     "Xác nhận",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,

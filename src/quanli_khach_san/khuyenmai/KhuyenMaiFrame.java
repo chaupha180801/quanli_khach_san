@@ -75,7 +75,7 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
             btnTemp.setBackground(new java.awt.Color(255, 245, 245));
             btnTemp.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
             btnTemp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quanli_khach_san/drawable/khthuong.png"))); // NOI18N
-            btnTemp.setText("MAKM: "+p.getMAKM()+"    | Tên khuyến mãi:   "+p.getMAKM()+"   |   Mô tả: "+p.getMOTA());
+            btnTemp.setText("MAKM: "+p.getMAKM()+"    | Tên khuyến mãi:   "+p.getTENKM()+"   |   Mô tả: "+p.getMOTA());
             btnTemp.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
             btnTemp.setIconTextGap(40);
             btnTemp.setMaximumSize(new java.awt.Dimension(115, 60));
@@ -405,6 +405,8 @@ public class KhuyenMaiFrame extends javax.swing.JFrame {
     public void setThreadNhan(Thread th)
     {
         threadNhan=th;
+        btnOKE1.setVisible(true);
+        btnTKNC.setVisible(true);
         btnThem.setVisible(false);
         btnX.setVisible(false);
         btnS.setVisible(false);

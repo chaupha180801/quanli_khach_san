@@ -215,7 +215,6 @@ public class DichVuDAO {
 
     public ArrayList<DichVu> queryByDichVu(DichVu dv) {
 
-        System.out.println(dv.toString());
         boolean preNode=false;
         ArrayList<DichVu> list=new ArrayList<>();
         String sqlQuery =
@@ -223,20 +222,21 @@ public class DichVuDAO {
                         "where ";
 
         if (dv.getMADV()!=null) {
-            sqlQuery += "MADV = " + String.valueOf(dv.getMADV()) + " ";
+            sqlQuery += "MADV LIKE ('%'||'" + String.valueOf(dv.getMADV()) + "'||'%') ";
             preNode = true;
         }
-        if (!dv.getTENDV().isEmpty()) {
+        if (dv.getTENDV()!=null && !dv.getTENDV().isEmpty()) {
             if (preNode==true) sqlQuery+=" AND ";
             sqlQuery += " TENDV LIKE ('%'||'" + dv.getTENDV() + "'||'%') ";
             preNode = true;
         }
-        if (dv.getGIADV()!=null) {
+        if (dv.getGIADV()!=null && dv.getGIADV()!=Integer.MIN_VALUE ) {
             if (preNode==true) sqlQuery+=" AND ";
-            sqlQuery += "GIADV = " + String.valueOf(dv.getGIADV()) + " ";
+            sqlQuery += "GIADV  LIKE ('%'||'" + String.valueOf(dv.getGIADV()) + "'||'%') ";
             preNode = true;
         }
-        sqlQuery+="ORDER BY MADV";
+        sqlQuery+=" ORDER BY MADV";
+        System.out.println("query: "+sqlQuery);
         try {
             PreparedStatement preparedStatementShow = connection.prepareStatement(sqlQuery);
 

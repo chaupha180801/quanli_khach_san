@@ -424,6 +424,24 @@ public class DatPhong extends javax.swing.JFrame {
 
     private void btnKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKMActionPerformed
         // TODO add your handling code here:
+        Object[] options = {"Chọn lại", "Xoá", "Thoát"};
+        if (khuyenmai != null) {
+            int result = JOptionPane.showOptionDialog(this,
+                    "Bạn có muốn chọn lại hay xoá chọn khuyến mãi này?",
+                    "Chi tiết",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[2]);
+
+            if (result == JOptionPane.NO_OPTION) {
+                khuyenmai = null;
+                btnKM.setText("");
+
+                return;
+            }else if (result==JOptionPane.CANCEL_OPTION) return;
+        }
         KhuyenMaiFrame child = new KhuyenMaiFrame();
         child.setVisible(true);
         Runnable runnable = new Runnable() {
