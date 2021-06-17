@@ -521,6 +521,7 @@ public class ThongTinHD extends javax.swing.JFrame {
 
                 return;
             } else if (result == JOptionPane.CANCEL_OPTION) return;
+            else if (result==JOptionPane.DEFAULT_OPTION) return;
         }
         KhuyenMaiFrame child = new KhuyenMaiFrame();
         child.setVisible(true);

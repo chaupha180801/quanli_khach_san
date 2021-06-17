@@ -13,8 +13,9 @@ public class MyConvert {
     }
     public static Integer parseObjToInt(Object a)
     {
-        if (a==null) return Integer.MIN_VALUE;
-        return Integer.parseInt(a.toString());
+       String k= parseObjToString(a);
+        if (k==null||k.isEmpty()) return Integer.MIN_VALUE;
+        return Integer.parseInt(k.toString());
     }
     public static Float parseStringToFloat(String str)
     {

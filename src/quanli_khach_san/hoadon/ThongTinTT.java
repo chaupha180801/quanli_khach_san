@@ -12,6 +12,7 @@ import quanli_khach_san.dichvu.ThueDichVu;
 import quanli_khach_san.khachhang.KhachHangDAO;
 import quanli_khach_san.khuyenmai.KhuyenMai;
 import quanli_khach_san.khuyenmai.KhuyenMaiDAO;
+import quanli_khach_san.khuyenmai.KhuyenMaiFrame;
 import quanli_khach_san.phong.DanhSachPhongDAO;
 import quanli_khach_san.phong.PhongDAO;
 import quanli_khach_san.phong.ThuePhong;
@@ -411,13 +412,27 @@ public class ThongTinTT extends javax.swing.JFrame {
 
     private void btnTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTTActionPerformed
         // TODO add your handling code here:
-        dispose();
+            Object[] options = {"Có", "Không"};
+            int result = JOptionPane.showOptionDialog(this,
+                    "Bạn chắc chắn muốn thanh toán ?",
+                    "Xác nhận",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if (result == JOptionPane.YES_OPTION) {
+                HDDAO.thanhToan(hoadon);
+                dispose();
+            }else return;
+
     }//GEN-LAST:event_btnTTActionPerformed
 
     private void btnIHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIHDActionPerformed
         // TODO add your handling code here:
 
-       // HDDAO.thanhToan(hoadon);
+       //
         new MyPrinter().printMyContent(hoadon,listTPh,listDv);
         dispose();
 
@@ -425,6 +440,52 @@ public class ThongTinTT extends javax.swing.JFrame {
 
     private void btnKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKMActionPerformed
         // TODO add your handling code here:
+        Object[] options = {"Chọn lại", "Xoá", "Thoát"};
+        if (khuyenmai != null) {
+            int result = JOptionPane.showOptionDialog(this,
+                    "Bạn có muốn chọn lại hay xoá chọn khuyến mãi này?",
+                    "Chi tiết",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[2]);
+
+            if (result == JOptionPane.NO_OPTION) {
+                khuyenmai = null;
+                btnKM.setText("");
+
+                return;
+            }else if (result==JOptionPane.CANCEL_OPTION) return;
+            else if (result==JOptionPane.DEFAULT_OPTION) return;
+        }
+        KhuyenMaiFrame child = new KhuyenMaiFrame();
+        child.setVisible(true);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                {
+                    synchronized (threadGui) {
+                        // Pause
+                        try { //code sau khi mở lại luồng chính
+                            threadGui.wait();
+                            khuyenmai = (child.getKhuyenMaiIsSelected());
+                            if (khuyenmai != null) btnKM.setText(khuyenmai.getMAKM());
+                        } catch (InterruptedException e) {
+                        }
+                    }
+
+                }
+            }
+
+
+        };
+
+        threadGui = new Thread(runnable);
+        child.setThreadNhan(threadGui);
+
+        //từ đây trở lên là trước khi luồng chính bị đóng
+        threadGui.start();
 
     }//GEN-LAST:event_btnKMActionPerformed
 

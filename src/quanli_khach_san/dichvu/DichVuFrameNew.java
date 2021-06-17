@@ -64,6 +64,7 @@ private ArrayList<DichVu> listDV ;
         }
         DefaultTableModel model = new DefaultTableModel(Rows, ColumnName);
         jTable2.setModel(model);
+        revalidate();
     }
 
     @SuppressWarnings("unchecked")
@@ -321,7 +322,7 @@ private ArrayList<DichVu> listDV ;
                         // Pause
                         try { //code sau khi mở lại luồng chính
                             threadToTTDV.wait();
-
+                            listDV=DVDAO.queryAllDichVu();
                             reset();
                         } catch (InterruptedException e) {
                         }
@@ -357,6 +358,7 @@ private ArrayList<DichVu> listDV ;
             if (result == JOptionPane.YES_OPTION) {
                 DVDAO.deleteDatabase(isSelected);
                 isSelected = null;
+                listDV=DVDAO.queryAllDichVu();
                 reset();
             }
         }//GEN-LAST:event_btnXActionPerformed
@@ -374,7 +376,7 @@ private ArrayList<DichVu> listDV ;
                         // Pause
                         try { //code sau khi mở lại luồng chính
                             threadToTTDV.wait();
-
+                            listDV=DVDAO.queryAllDichVu();
                             reset();
                         } catch (InterruptedException e) {
                         }

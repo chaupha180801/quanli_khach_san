@@ -306,7 +306,7 @@ public class ThongTinKhachHang extends javax.swing.JFrame {
     public void setSua(Thread th, KhachHang kh)
     {
         threadNhan =th;
-        khachhang=khachhang;
+        khachhang=kh;
         paintView();
         isInstance= MyInstance.IS_EDIT;
 

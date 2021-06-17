@@ -73,6 +73,7 @@ public class MyPrinter extends Graphics implements Printable {
          */
 
         Graphics2D g2d = (Graphics2D)g;
+        
         g2d.translate(pf.getImageableX(), pf.getImageableY());
 
         /* Now we perform our rendering */

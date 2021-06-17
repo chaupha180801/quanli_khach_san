@@ -84,12 +84,16 @@ public class DatPhong extends javax.swing.JFrame {
     private void paintPH() {
 
         if (listPhong != null && !listPhong.isEmpty()) {
+            Integer index=0;
             for (Phong p : listPhong) {
+
+
                 JButton btnTemp = new javax.swing.JButton();
                 btnTemp.setBackground(new java.awt.Color(255, 207, 134));
                 btnTemp.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
                 btnTemp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quanli_khach_san/drawable/bed_icon.png"))); // NOI18N
-                btnTemp.setText("MAPH: " + p.getMAPH());
+
+                btnTemp.setText("MAPH: " + p.getMAPH() + "  |  Số người: "+(listThuePh.size()>index?listThuePh.get(index).getSONGUOITHUE().toString():""));
                 btnTemp.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
                 btnTemp.setIconTextGap(40);
                 btnTemp.setMaximumSize(new java.awt.Dimension(115, 60));
@@ -111,7 +115,7 @@ public class DatPhong extends javax.swing.JFrame {
                             options[2]);
 
                     if (result == JOptionPane.YES_OPTION) {
-                        String songuoi = JOptionPane.showInputDialog(this,"Nhập số người", "Chi tiết phòng", JOptionPane.DEFAULT_OPTION);
+                         String songuoi = JOptionPane.showInputDialog(this,"Nhập số người", "Chi tiết phòng", JOptionPane.DEFAULT_OPTION);
                         if ((!songuoi.isEmpty())) {
                             List<Phong> matches = listPhong.stream().filter(it -> it.getMAPH().toString().contains(StrTemp)).collect(Collectors.toList());
                             List<ThuePhong> phongtrongthuephong = listThuePh.stream().filter(it -> it.getMAPH().toString().contains(matches.get(0).getMAPH())).collect(Collectors.toList());
@@ -135,6 +139,7 @@ public class DatPhong extends javax.swing.JFrame {
 
                 });
                 jPanel8.add(btnTemp);
+                index++;
             }
             jPanel8.revalidate();
         }
@@ -418,7 +423,7 @@ public class DatPhong extends javax.swing.JFrame {
                 btnKH.setText("");
 
                 reset();
-            }
+            }else if (result==JOptionPane.DEFAULT_OPTION) return;
         }
     }//GEN-LAST:event_btnKHActionPerformed
 
@@ -441,6 +446,7 @@ public class DatPhong extends javax.swing.JFrame {
 
                 return;
             }else if (result==JOptionPane.CANCEL_OPTION) return;
+            else if (result==JOptionPane.DEFAULT_OPTION) return;
         }
         KhuyenMaiFrame child = new KhuyenMaiFrame();
         child.setVisible(true);
@@ -519,7 +525,8 @@ public class DatPhong extends javax.swing.JFrame {
                 options,
                 options[0]);
 
-        if (result == JOptionPane.NO_OPTION) {
+        if(result==JOptionPane.YES_OPTION) return;
+        else if (result == JOptionPane.NO_OPTION) {
 
             dispose();
 

@@ -102,7 +102,7 @@ public class KhuyenMaiDAO {
     }
     public boolean insertKMintoHD(HoaDon hd, KhuyenMai km)
     {
-        String SQL = "update HOADON set   TENKM=? where SOHD = ?";
+        String SQL = "update HOADON set   MAKM=? where SOHD = ?";
 
 
         PreparedStatement ps = null;

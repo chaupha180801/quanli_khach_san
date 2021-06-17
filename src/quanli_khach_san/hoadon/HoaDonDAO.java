@@ -4,13 +4,16 @@ import quanli_khach_san.Util.MyConvert;
 import quanli_khach_san.database.Database;
 import quanli_khach_san.dichvu.DichVu;
 import quanli_khach_san.phong.Phong;
+import quanli_khach_san.phong.ThuePhong;
 
 import javax.swing.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /*SOHD                 INTEGER              NOT NULL,
    MAPHIEUTP            INTEGER              NOT NULL,
@@ -60,7 +63,7 @@ public class HoaDonDAO {
 
 
         ArrayList<HoaDon> list = new ArrayList<>();
-        String sqlQuery = "SELECT DISTINCT * FROM HOADON WHERE SOHD IN ("+
+        String sqlQuery = "SELECT DISTINCT * FROM HOADON WHERE SOHD IN (" +
                 " SELECT DISTINCT SOHD from HOADON JOIN THUE_PHONG ON HOADON.MAPHIEUTP=THUE_PHONG.MAPHIEUTP" +
                 " WHERE NGBD <= ? " +
                 " AND NGKT >= ? )" +
@@ -146,7 +149,7 @@ public class HoaDonDAO {
     }
 
     public boolean deleteDatabase(HoaDon hd) {
-        PreparedStatement ps = null;
+       /* PreparedStatement ps = null;
         try {
             String queryPTP = "DELETE FROM THUE_PHONG WHERE MAPHIEUTP =?";
             ps = connection.prepareStatement(queryPTP);
@@ -183,6 +186,23 @@ public class HoaDonDAO {
         }
 
         return true;
+*/
+        CallableStatement cstmt = null;
+        try {
+            cstmt = connection.prepareCall("{CALL PROC_DELETE_HOADON(?)}");
+
+
+            cstmt.setString(1, hd.getSOHD());
+
+            cstmt.executeQuery();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+
+
+        }
+        return true;
 
     }
 
@@ -213,16 +233,18 @@ public class HoaDonDAO {
     }
 
     public void thanhToan(HoaDon hd) {
-        String queryHD = "UPDATE HOADON SET NGAYHD = ? WHERE SOHD =?";
-        PreparedStatement ps = null;
+        CallableStatement cstmt = null;
         try {
-            ps = connection.prepareStatement(queryHD);
-            Date date = new Date(System.currentTimeMillis());
-            ps.setDate(1, new java.sql.Date(date.getTime()));
-            ps.setString(2, hd.getSOHD());
+            cstmt = connection.prepareCall("{CALL PROC_PAY_HOADON(?)}");
 
-            ps.executeUpdate();
-        } catch (SQLException ex) {
+
+            cstmt.setString(1, hd.getSOHD());
+
+            cstmt.executeQuery();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+
 
         }
 

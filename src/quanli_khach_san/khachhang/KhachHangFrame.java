@@ -461,6 +461,7 @@ public class KhachHangFrame extends javax.swing.JFrame {
 
     private void btnSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSActionPerformed
         // TODO add your handling code here:
+
         if (listIsSelected.isEmpty())
 
             JOptionPane.showMessageDialog(null, "Bạn chưa chọn khách hàng nào", "Thông tin", JOptionPane.INFORMATION_MESSAGE);
@@ -489,6 +490,7 @@ public class KhachHangFrame extends javax.swing.JFrame {
 
             threadGui = new Thread(runnable);
             child.setSua(threadGui, listIsSelected.get(0));
+
 
             //từ đây trở lên là trước khi luồng chính bị đóng
             threadGui.start();
